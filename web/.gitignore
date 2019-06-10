@@ -1,0 +1,7 @@
+mix-manifest.json
+/assets/build
+/hot
+
+/assets/volumes
+/cpresources
+/imager

@@ -1,0 +1,88 @@
+{
+  "name": "agency-webpack-mix-config",
+  "scripts": {
+    "start": "npm run webpack-dev-server",
+    "watch": "npm run webpack-watch",
+    "webpack-dev-server": "NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --quiet --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "webpack-watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --watch",
+    "build": "NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "fix": "eslint --fix src/scripts"
+  },
+  "dependencies": {
+    "core-js": "^3.1.3",
+    "regenerator-runtime": "^0.13.2",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.3",
+    "eslint": "^5.16.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-compat": "^3.1.1",
+    "imagemin-webpack-plugin": "^2.4.2",
+    "laravel-mix": "^4.0.16",
+    "laravel-mix-imagemin": "^1.0.0",
+    "laravel-mix-polyfill": "^1.0.2",
+    "laravel-mix-svg-sprite": "^1.0.0",
+    "sass": "^1.21.0",
+    "sass-loader": "^7.1.0",
+    "stylelint": "^10.1.0",
+    "stylelint-no-unsupported-browser-features": "^3.0.2",
+    "stylelint-webpack-plugin": "^0.10.5",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not ie 10",
+    "not op_mini all",
+    "not op_mob 12.1",
+    "not baidu 7.12",
+    "not ie_mob 10",
+    "not and_uc 11.8"
+  ],
+  "eslintConfig": {
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module",
+      "allowImportExportEverywhere": true
+    },
+    "plugins": [
+      "compat"
+    ],
+    "rules": {
+      "compat/compat": "warn"
+    }
+  },
+  "stylelint": {
+    "plugins": [
+      "stylelint-no-unsupported-browser-features"
+    ],
+    "defaultSeverity": "warning",
+    "rules": {
+      "plugin/no-unsupported-browser-features": true,
+      "string-quotes": "single",
+      "no-eol-whitespace": true,
+      "indentation": 4,
+      "max-empty-lines": 2,
+      "property-case": "lower",
+      "font-family-no-missing-generic-family-keyword": true,
+      "function-parentheses-space-inside": "never-single-line",
+      "function-comma-space-before": "never-single-line",
+      "property-no-vendor-prefix": true,
+      "function-linear-gradient-no-nonstandard-direction": true,
+      "no-extra-semicolons": true,
+      "no-duplicate-at-import-rules": true
+    }
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "useTabs": false,
+    "tabWidth": 4,
+    "semi": false,
+    "singleQuote": false
+  }
+}
