@@ -1,9 +1,9 @@
 /**
  * Dynamic import demo
- * An example component
+ * An example of a vanilla component
  */
 
 const dynamicImportDemo = () =>
-    console.log("👍 Dynamically imported: modules/dynamicImportDemo.js ")
+    console.log("👍 Dynamically imported: modules/dynamicImportDemo.js")
 
 export default dynamicImportDemo

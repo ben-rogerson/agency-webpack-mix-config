@@ -8,18 +8,16 @@ const StyleLintPlugin = require("stylelint-webpack-plugin")
  * Agency Webpack Mix Config
  *
  * ⚙️ Settings
- * 🎆 SVG icon sprite
  * 🎨 Styles
  *  - PostCss
  * 📑 Scripts
  *  - Vendor
  *  - Polyfills
  *  - Auto import libraries
+ * 🎆 SVG icon sprite
  * 🏞 Images
  * 🗂️ Static files
  * 🎁 Webpack config
- * =====
- * 🙊 Patches
  * 🎭 File hashing
  */
 
@@ -34,27 +32,6 @@ const StyleLintPlugin = require("stylelint-webpack-plugin")
  * - Customise the notification message
  * - Critical CSS (wishlist)
  */
-
-const getFilesIn = (folderPath, matchFiletypes = []) => {
-    const entryPaths = fs
-        .readdirSync(folderPath)
-        .map(entry => path.join(folderPath, entry))
-    const entryPathFiles = entryPaths.filter(entry => {
-        const fileTypeArray = Array.isArray(matchFiletypes)
-            ? matchFiletypes
-            : [matchFiletypes]
-        return fileTypeArray.includes(
-            entry
-                .slice()
-                .split(".")
-                .pop()
-        )
-    })
-    const filePaths = entryPathFiles.filter(entryPath =>
-        fs.statSync(entryPath).isFile()
-    )
-    return filePaths
-}
 
 // ⚙️ Import aliases
 const importAliases = {
@@ -102,17 +79,6 @@ mix.disableSuccessNotifications()
 
 // ⚙️ Source maps
 if (mix.inProduction()) mix.sourceMaps()
-
-/**
- * 🎆 SVG icon sprite
- * Combines SVG icons into a single SVG
- * https://github.com/kisenka/svg-sprite-loader#configuration
- */
-require("laravel-mix-svg-sprite")
-mix.svgSprite(from.icons, to.icons, {
-    symbolId: filePath => `icon-${path.parse(filePath).name}`,
-    extract: true,
-})
 
 /**
  * 🎨 Styles: Main
@@ -185,6 +151,17 @@ mix.polyfill({
 // })
 
 /**
+ * 🎆 SVG icon sprite
+ * Combines SVG icons into a single SVG
+ * https://github.com/kisenka/svg-sprite-loader#configuration
+ */
+require("laravel-mix-svg-sprite")
+mix.svgSprite(from.icons, to.icons, {
+    symbolId: filePath => `icon-${path.parse(filePath).name}`,
+    extract: true,
+})
+
+/**
  * 🏞 Images
  * Compresses the files and copies to build directory
  * https://github.com/Klathmon/imagemin-webpack-plugin#api
@@ -223,6 +200,28 @@ mix.copyDirectory(from.static, to.static)
  * Merged webpack configuration
  */
 mix.webpackConfig({
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    // Customize the 'vendor~' prefix on node_module chunks
+                    name(module) {
+                        return `npm-${module.request
+                            .split("/")
+                            .pop()
+                            .split(".")
+                            .shift()}`
+                    },
+                },
+            },
+        },
+    },
+    output: {
+        // filename: '[name].js',
+        // path: path.resolve(__dirname, 'dist'),
+        // publicPath: 'dist/',
+        chunkFilename: "dist/[name].js",
+    },
     resolve: {
         // Make folder aliases
         alias: importAliases,
@@ -240,7 +239,7 @@ mix.webpackConfig({
 })
 
 /**
- * 🎁 Webpack config: Development environment
+ * 🎁 Webpack config: Non-production
  * Custom Webpack configuration
  */
 if (!mix.inProduction()) {
@@ -284,12 +283,6 @@ if (!mix.inProduction()) {
     })
 }
 
-/** ==================================================
- * 🙊 Patches
- * "Laravel Mix: An elegant wrapper around Webpack for the 80% use case."
- * Here you'll find the remaining 20%:
- */
-
 /**
  * 🎭 File hashing
  * Mix has querystring hashing by default, eg: main.css?id=abcd1234
@@ -297,13 +290,15 @@ if (!mix.inProduction()) {
  * https://github.com/JeffreyWay/laravel-mix/issues/1022#issuecomment-379168021
  */
 if (mix.inProduction()) {
+    // Allow versioning in production
     mix.version()
 
+    // Imports
     const _ = require("lodash")
     const del = require("del")
     const jsonFile = require("jsonfile")
     const fs = require("fs")
-
+    // Run after mix finishes
     mix.then(() => {
         // Parse the mix-manifest file
         jsonFile.readFile(to.manifest, (err, obj) => {
@@ -345,9 +340,8 @@ if (mix.inProduction()) {
 }
 
 /**
- * 👷 Restore hot module reloading
- * Sass updates didn't have hmr so this fixes it
- * This removes the deprecated loader with no hmr support
+ * 👷 Style file HMR patch
+ * Removal of the deprecated loader with no hmr support
  * https://github.com/webpack-contrib/extract-text-webpack-plugin
  */
 if (!mix.inProduction()) {
@@ -364,5 +358,33 @@ if (!mix.inProduction()) {
     })
 }
 
-// Dump the Webpack config to the console
+/**
+ * Get files helper
+ * Returns a list of file paths of type in a directory
+ * Usage: getFilesIn('/dir', ["js"])
+ */
+function getFilesIn(folderPath, matchFiletypes = []) {
+    const entryPaths = fs
+        .readdirSync(folderPath)
+        .map(entry => path.join(folderPath, entry))
+    const entryPathFiles = entryPaths.filter(entry => {
+        const fileTypeArray = Array.isArray(matchFiletypes)
+            ? matchFiletypes
+            : [matchFiletypes]
+        return fileTypeArray.includes(
+            entry
+                .slice()
+                .split(".")
+                .pop()
+        )
+    })
+    const filePaths = entryPathFiles.filter(entryPath =>
+        fs.statSync(entryPath).isFile()
+    )
+    return filePaths
+}
+
+/**
+ * Dump the config to the console for debugging
+ */
 // mix.dump()

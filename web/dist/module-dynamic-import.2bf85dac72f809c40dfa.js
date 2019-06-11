@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[1],{IYB5:function(o,n,e){"use strict";e.r(n);n.default=function(){return console.log("👍 Dynamically imported: modules/dynamicImportDemo.js")}}}]);
+//# sourceMappingURL=module-dynamic-import.js.map

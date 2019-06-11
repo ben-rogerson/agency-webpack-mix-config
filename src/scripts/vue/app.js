@@ -1,5 +1,5 @@
 const App = async () => {
-    const Vue = await import(/* webpackChunkName: "vue-pkg" */ "vue")
+    const Vue = await import(/* webpackChunkName: "vue-import" */ "vue")
 
     new Vue.default({
         el: "#app",
@@ -8,7 +8,7 @@ const App = async () => {
         data: {},
         methods: {},
         mounted() {
-            console.log("👍 Dynamically imported: vue/main.js")
+            console.log("👍 Dynamically imported: vue/app.js")
         },
     })
 }
