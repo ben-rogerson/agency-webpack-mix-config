@@ -6,11 +6,11 @@
     "webpack-dev-server": "NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --quiet --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "webpack-watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --watch",
     "build": "NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "fix": "eslint --fix src/scripts"
+    "fix-code": "eslint --fix 'src/scripts/**/*.{vue,js,jsx,mjs}'",
+    "fix-styles": "stylelint --fix 'src/styles/**/*.{css,sass,scss}'"
   },
   "dependencies": {
     "core-js": "^3.1.3",
-    "regenerator-runtime": "^0.13.2",
     "vue": "^2.6.10"
   },
   "devDependencies": {
@@ -41,15 +41,11 @@
     "not op_mob 12.1",
     "not baidu 7.12",
     "not ie_mob 10",
+    "not ie_mob 11",
     "not and_uc 11.8"
   ],
   "eslintConfig": {
     "parser": "babel-eslint",
-    "parserOptions": {
-      "ecmaVersion": 6,
-      "sourceType": "module",
-      "allowImportExportEverywhere": true
-    },
     "plugins": [
       "compat"
     ],
@@ -61,9 +57,12 @@
     "plugins": [
       "stylelint-no-unsupported-browser-features"
     ],
+    "ignoreFiles": ["web/**/*", "vendor/**/*"],
     "defaultSeverity": "warning",
     "rules": {
-      "plugin/no-unsupported-browser-features": true,
+      "plugin/no-unsupported-browser-features": [true, {
+        "ignore": ["flexbox", "calc", "will-change", "css-filters", "outline", "viewport-units", "css-appearance", "css-gradients", "css-textshadow", "css-initial-value", "font-feature", "kerning-pairs-ligatures", "fontface"]
+      }],
       "string-quotes": "single",
       "no-eol-whitespace": true,
       "indentation": 4,

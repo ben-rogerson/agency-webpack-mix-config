@@ -23,53 +23,31 @@ const StyleLintPlugin = require("stylelint-webpack-plugin")
 
 /**
  * TODO:
- * - Adjust manifest build locations
  * - Add instructions for Craft install
- * - Display link to localhost + branding
  * - Template reload watcher (reload after error?)
- * - Test JS Uglification
- * - Vue.js modules (add some components)
  * - Customise the notification message
  * - Critical CSS (wishlist)
  */
-
-// ⚙️ Import aliases
-const importAliases = {
-    icons: path.resolve("src/icons"),
-    images: path.resolve("src/images"),
-    scripts: path.resolve("src/scripts"),
-    styles: path.resolve("src/styles"),
-}
-
-/**
- * ⚙️ Settings: From folders
- */
-const from = {
-    icons: "src/icons",
-    images: "src/images",
-    scripts: "src/scripts",
-    static: "src/static",
-    styles: "src/styles",
-}
-
-/**
- * ⚙️ Settings: To folders
- */
-const to = {
-    icons: "dist/sprite.svg",
-    images: "dist",
-    scripts: "dist",
-    static: "web/static",
-    styles: "web/dist",
-    manifest: "web/mix-manifest.json",
-}
 
 /**
  * ⚙️ Settings: General
  */
 const devProxyDomain = "http://lencom.test"
 const publicFolder = "web"
+const publicBuildFolder = "dist"
 const cleanBeforeBuildGlobs = ["dist/**/*", "static/**/*", "mix-manifest.json"]
+
+/**
+ * ⚙️ Settings: Source folders
+ * These are also aliases throughout your app
+ */
+const source = {
+    icons: path.resolve("src/icons"),
+    images: path.resolve("src/images"),
+    scripts: path.resolve("src/scripts"),
+    styles: path.resolve("src/styles"),
+    static: path.resolve("src/static"),
+}
 
 // ⚙️ Base public path
 mix.setPublicPath(publicFolder)
@@ -86,13 +64,12 @@ if (mix.inProduction()) mix.sourceMaps()
  * https://laravel.com/docs/5.8/mix#sass
  * https://github.com/sass/node-sass#options
  */
-const styleFiles = getFilesIn(path.resolve(__dirname, from.styles), [
+const styleFiles = getFilesIn(path.resolve(__dirname, source.styles), [
     "scss",
     "sass",
-    "less",
 ])
 styleFiles.forEach(styleFile => {
-    mix.sass(styleFile, to.styles, {
+    mix.sass(styleFile, path.join(publicFolder, publicBuildFolder), {
         // Send data to the stylesheet
         data: `$isDev: ${!mix.inProduction()};`,
     })
@@ -109,13 +86,13 @@ mix.options({
 /**
  * 📑 Scripts: Main
  */
-const scriptFiles = getFilesIn(path.resolve(__dirname, from.scripts), [
+const scriptFiles = getFilesIn(path.resolve(__dirname, source.scripts), [
     "js",
     "mjs",
     "vue",
 ])
 scriptFiles.forEach(scriptFile => {
-    mix.js(scriptFile, to.scripts)
+    mix.js(scriptFile, publicBuildFolder)
 })
 
 /**
@@ -156,7 +133,7 @@ mix.polyfill({
  * https://github.com/kisenka/svg-sprite-loader#configuration
  */
 require("laravel-mix-svg-sprite")
-mix.svgSprite(from.icons, to.icons, {
+mix.svgSprite(source.icons, path.join(publicBuildFolder, "sprite.svg"), {
     symbolId: filePath => `icon-${path.parse(filePath).name}`,
     extract: true,
 })
@@ -169,8 +146,8 @@ mix.svgSprite(from.icons, to.icons, {
 require("laravel-mix-imagemin")
 mix.imagemin(
     {
-        from: `${from.images}/**/*`,
-        to: to.images,
+        from: path.join(source.images, "/**/*"),
+        to: publicBuildFolder,
         flatten: true,
     },
     {},
@@ -193,47 +170,29 @@ mix.imagemin(
  * 🗂️ Static files
  * A copy and paste task
  */
-mix.copyDirectory(from.static, to.static)
+mix.copyDirectory(source.static, path.join("web", "static"))
 
 /**
  * 🎁 Webpack config: Misc
  * Merged webpack configuration
  */
 mix.webpackConfig({
-    optimization: {
-        splitChunks: {
-            cacheGroups: {
-                vendor: {
-                    // Customize the 'vendor~' prefix on node_module chunks
-                    name(module) {
-                        return `npm-${module.request
-                            .split("/")
-                            .pop()
-                            .split(".")
-                            .shift()}`
-                    },
-                },
-            },
-        },
-    },
     output: {
-        // filename: '[name].js',
-        // path: path.resolve(__dirname, 'dist'),
-        // publicPath: 'dist/',
-        chunkFilename: "dist/[name].js",
+        // Custom chunk filenames
+        chunkFilename: path.join(publicBuildFolder, "[name].js"),
     },
     resolve: {
-        // Make folder aliases
-        alias: importAliases,
+        // Project folder aliases
+        alias: source,
     },
     plugins: [
         // Clear previous build files before new build
         new CleanWebpackPlugin({
             dry: false,
-            verbose: false,
+            verbose: true,
             cleanOnceBeforeBuildPatterns: cleanBeforeBuildGlobs,
         }),
-        // Lint SASS
+        // Lint styles
         new StyleLintPlugin(),
     ],
 })
@@ -257,10 +216,11 @@ if (!mix.inProduction()) {
         },
         // Custom webpack-dev-server options
         devServer: {
+            // public: "localhost:8080",
             public: "http://localhost:8080",
             host: "0.0.0.0",
-            https: false,
             disableHostCheck: true,
+            https: devProxyDomain.includes("https://"),
             hot: true,
             overlay: true,
             watchOptions: {
@@ -270,7 +230,6 @@ if (!mix.inProduction()) {
             headers: {
                 "Access-Control-Allow-Origin": "*",
             },
-            stats: "verbose",
             proxy: {
                 "*": {
                     target: devProxyDomain,
@@ -278,6 +237,7 @@ if (!mix.inProduction()) {
                 },
             },
             open: true,
+            stats: "verbose",
             quiet: false,
         },
     })
@@ -298,10 +258,11 @@ if (mix.inProduction()) {
     const del = require("del")
     const jsonFile = require("jsonfile")
     const fs = require("fs")
+    const manifestPath = path.join(publicFolder, "mix-manifest.json")
     // Run after mix finishes
     mix.then(() => {
         // Parse the mix-manifest file
-        jsonFile.readFile(to.manifest, (err, obj) => {
+        jsonFile.readFile(manifestPath, (err, obj) => {
             const newJson = {}
             const oldFiles = []
             _.forIn(obj, (value, key) => {
@@ -332,7 +293,7 @@ if (mix.inProduction()) {
                 del.sync([`${publicFolder}${key}`])
             })
             // Write the new contents of the mix manifest file
-            jsonFile.writeFile(to.manifest, newJson, { spaces: 4 }, err => {
+            jsonFile.writeFile(manifestPath, newJson, { spaces: 4 }, err => {
                 if (err) console.error(err)
             })
         })
