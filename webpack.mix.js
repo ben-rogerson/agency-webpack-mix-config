@@ -19,6 +19,7 @@ const StyleLintPlugin = require("stylelint-webpack-plugin")
  * 🗂️ Static files
  * 🎁 Webpack config
  * 🎭 File hashing
+ * 👷 Style files HMR patch
  */
 
 /**
@@ -145,8 +146,8 @@ mix.svgSprite(source.icons, path.join(publicBuildFolder, "sprite.svg"), {
  */
 require("laravel-mix-imagemin")
 mix.imagemin(
-    path.join(source.images, "/**/*"),
     {
+        from: path.join(source.images, "**/*"),
         to: publicBuildFolder,
         flatten: true,
     },
@@ -192,8 +193,6 @@ mix.webpackConfig({
             verbose: true,
             cleanOnceBeforeBuildPatterns: cleanBeforeBuildGlobs,
         }),
-        // Lint styles
-        new StyleLintPlugin(),
     ],
 })
 
@@ -214,10 +213,13 @@ if (!mix.inProduction()) {
                 },
             ],
         },
+        plugins: [
+            // Lint styles
+            new StyleLintPlugin(),
+        ],
         // Custom webpack-dev-server options
         devServer: {
-            // public: "localhost:8080",
-            public: "http://localhost:8080",
+            public: "localhost:8080",
             host: "0.0.0.0",
             disableHostCheck: true,
             https: devProxyDomain.includes("https://"),
@@ -240,6 +242,25 @@ if (!mix.inProduction()) {
             stats: "verbose",
             quiet: false,
         },
+    })
+}
+
+/**
+ * 👷 Style files HMR patch
+ * Removal of the deprecated loader with no hmr support
+ * https://github.com/webpack-contrib/extract-text-webpack-plugin
+ */
+if (!mix.inProduction()) {
+    Mix.listen("configReady", config => {
+        for (rule of config.module.rules) {
+            if (styleFiles.includes(String(rule.test))) {
+                rule.use = rule.use.filter(
+                    i =>
+                        !i.loader ||
+                        !i.loader.includes(`extract-text-webpack-plugin`)
+                )
+            }
+        }
     })
 }
 
@@ -297,25 +318,6 @@ if (mix.inProduction()) {
                 if (err) console.error(err)
             })
         })
-    })
-}
-
-/**
- * 👷 Style file HMR patch
- * Removal of the deprecated loader with no hmr support
- * https://github.com/webpack-contrib/extract-text-webpack-plugin
- */
-if (!mix.inProduction()) {
-    Mix.listen("configReady", config => {
-        for (rule of config.module.rules) {
-            if (styleFiles.includes(String(rule.test))) {
-                rule.use = rule.use.filter(
-                    i =>
-                        !i.loader ||
-                        !i.loader.includes(`extract-text-webpack-plugin`)
-                )
-            }
-        }
     })
 }
 
