@@ -145,8 +145,8 @@ mix.svgSprite(source.icons, path.join(publicBuildFolder, "sprite.svg"), {
  */
 require("laravel-mix-imagemin")
 mix.imagemin(
+    path.join(source.images, "/**/*"),
     {
-        from: path.join(source.images, "/**/*"),
         to: publicBuildFolder,
         flatten: true,
     },
