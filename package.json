@@ -6,7 +6,7 @@
     "webpack-dev-server": "NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --quiet --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "webpack-watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --watch",
     "build": "NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "fix-code": "eslint --fix 'src/scripts/**/*.{vue,js,jsx,mjs}'",
+    "fix-scripts": "eslint --fix 'src/scripts/**/*.{vue,js,jsx,mjs}'",
     "fix-styles": "stylelint --fix 'src/styles/**/*.{css,sass,scss}'"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
     "laravel-mix": "^4.0.16",
     "laravel-mix-imagemin": "1.0.0",
     "laravel-mix-polyfill": "^1.0.2",
+    "laravel-mix-purgecss": "^4.1.0",
     "laravel-mix-svg-sprite": "^1.0.0",
     "sass": "^1.21.0",
     "sass-loader": "^7.1.0",
