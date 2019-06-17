@@ -23,8 +23,9 @@ const bodyAttribute = "data-icons"
 const iconsPath = bodyElement.getAttribute(bodyAttribute)
 
 const inlineFile = iconsPath => {
-    if (!iconsPath) return
-    console.warn("No <body> found, skipping SVG icon sprite")
+    if (!iconsPath) {
+        return console.warn("No <body> found,skipping SVG icon sprite")
+    }
 
     const request = new XMLHttpRequest()
     request.open("GET", iconsPath, true)
