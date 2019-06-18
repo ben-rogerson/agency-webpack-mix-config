@@ -7,12 +7,12 @@
  * ---------------------------
  * ⚙️ Settings
  * 🎨 Styles
- *  - PurgeCss
- *  - PostCss
+ * 🎨 Styles: PurgeCSS
+ * 🎨 Styles: PostCSS
  * 📑 Scripts
- *  - Vendor
- *  - Polyfills
- *  - Auto import libraries
+ * 📑 Scripts: Vendor
+ * 📑 Scripts: Polyfills
+ * 📑 Scripts: Auto import libraries
  * 🎆 SVG icon sprite
  * 🏞 Images
  * 🗂️ Static files
@@ -26,15 +26,18 @@
  * - Add instructions for Craft install
  * - Template reload watcher (reload after error?)
  * - Customise the notification message
- * - PurgeCSS
- * - Critical CSS (wishlist)
+ * - Add postcss-preset-env
+ * - PurgeCSS config + testing
+ * - Critical CSS config + testing
+ * - Reduce the build path key
+ *
  */
 
 /**
  * ⚙️ Settings: General
  */
 const config = {
-    devProxyDomain: "http://lencom.test",
+    devProxyDomain: "http://mix.test",
     publicFolder: "web",
     publicBuildFolder: "dist",
     cleanBeforeBuildGlobs: ["dist/**/*", "static/**/*", "mix-manifest.json"],
@@ -90,21 +93,45 @@ styleFiles.forEach(styleFile => {
 })
 
 /**
- * 🎨 Styles: PurgeCss
+ * 🎨 Styles: CriticalCSS
  */
-require("laravel-mix-purgecss")
-mix.purgeCss({
-    enabled: mix.inProduction(),
-    folders: ["src", "templates"],
-    extensions: ["php", "twig", "html", "js", "mjs", "vue"],
-})
+// {
+//     base: "./web/dist/criticalcss/",
+//     suffix: "_critical.min.css",
+//     criticalHeight: 1200,
+//     criticalWidth: 1200,
+//     ampPrefix: "amp_",
+//     ampCriticalHeight: 19200,
+//     ampCriticalWidth: 600,
+//     pages: [
+//         {
+//             url: "",
+//             template: "index"
+//         }
+//     ]
+// }
 
 /**
- * 🎨 Styles: PostCss + other options
+ * 🎨 Styles: PurgeCSS
+ */
+// require("laravel-mix-purgecss")
+// mix.purgeCss({
+//     enabled: mix.inProduction(),
+//     folders: ["src", "templates"],
+//     extensions: ["php", "twig", "html", "js", "mjs", "vue"],
+// })
+
+/**
+ * 🎨 Styles: PostCSS + other options
  */
 mix.options({
     postCss: [
-        // TODO: Add postCss config example
+        // require('postcss-preset-env')({
+        //     autoprefixer: { grid: true },
+        //     features: {
+        //         'nesting-rules': true
+        //     }
+        // })
     ],
     processCssUrls: false, // Off as this process is expensive
 })
@@ -180,10 +207,11 @@ mix.imagemin(
     {},
     {
         gifsicle: { interlaced: true },
-        mozjpeg: { progressive: true },
-        optipng: { optimizationLevel: 1 }, // keeps compression speedy
+        mozjpeg: { progressive: true, arithmetic: false },
+        optipng: { optimizationLevel: 3 }, // lower number = speedier/reduced compression
         svgo: {
             plugins: [
+                { convertPathData: false },
                 { convertColors: { currentColor: false } },
                 { removeDimensions: true },
                 { removeViewBox: false },
@@ -205,10 +233,10 @@ mix.copyDirectory(source.static, path.join(config.publicFolder, "static"))
  */
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 mix.webpackConfig({
-    output: {
-        // Custom chunk filenames
-        chunkFilename: path.join(config.publicBuildFolder, "[name].js"),
-    },
+    // output: {
+    // Custom chunk filenames
+    //     chunkFilename: path.join(config.publicBuildFolder, "[name].js"),
+    // },
     resolve: {
         // Project folder aliases
         alias: source,
@@ -247,28 +275,30 @@ if (!mix.inProduction()) {
         ],
         // Custom webpack-dev-server options
         devServer: {
+            open: true,
             public: "localhost:8080",
-            host: "0.0.0.0",
-            disableHostCheck: true,
+            host: "0.0.0.0", // Allows access from network
             https: config.devProxyDomain.includes("https://"),
+            inline: true,
+            quiet: true,
             hot: true,
             overlay: true,
+            contentBase: path.resolve(__dirname, "templates"),
+            watchContentBase: true,
             watchOptions: {
-                poll: true,
-                ignored: ["node_modules", "vendor", "storage", ".git"],
+                aggregateTimeout: 200,
+                poll: 100, // Lower for faster reloads (more cpu intensive)
             },
+            disableHostCheck: true, // Fixes "Invalid Host header error" on assets
             headers: {
                 "Access-Control-Allow-Origin": "*",
             },
             proxy: {
-                "*": {
-                    target: config.devProxyDomain,
-                    changeOrigin: true,
-                },
+                context: () => true,
+                target: config.devProxyDomain,
+                changeOrigin: true,
+                secure: false,
             },
-            open: true,
-            stats: "verbose",
-            quiet: false,
         },
     })
 }
