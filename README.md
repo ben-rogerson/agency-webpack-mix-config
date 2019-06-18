@@ -40,11 +40,12 @@ TODO: Elaborate...
 
 ## Getting started
 
-### 1. Copy this repo (minus the git history) into a new project folder:
+### 1. Copy this repo into a new project folder:
 
 ```bash
 npx degit ben-rogerson/agency-webpack-mix-config
 ```
+&hellip;or use Github's new tool to [create a new repository](https://github.com/ben-rogerson/agency-webpack-mix-config/generate).
 
 ### 2. Install the dependencies:
 
@@ -64,17 +65,20 @@ npx degit --force craftcms/craft
 ## Tasks:
 
 ```bash
-npm run start
-# Start a webpack-dev-server with HMR support
+npm run dev
+# Development server
 
-npm run watch
-# Build your projects
+npm run start
+# Development build
+
+npm run build
+# Production build
 
 npm run fix-scripts
-# Fix your javascript with eslint
+# Fixes your javascript with eslint
 
 npm run fix-styles
-# Fix your styles with stylelint
+# Fixes your styles with stylelint
 ```
 
 ## Further reading
