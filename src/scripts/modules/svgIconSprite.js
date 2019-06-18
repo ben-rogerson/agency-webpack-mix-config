@@ -24,7 +24,9 @@ const iconsPath = bodyElement.getAttribute(bodyAttribute)
 
 const inlineFile = iconsPath => {
     if (!iconsPath) {
-        return console.warn("No <body> found,skipping SVG icon sprite")
+        return console.warn(
+            `No body attribute of "${bodyAttribute}" found for SVG icon sprite`
+        )
     }
 
     const request = new XMLHttpRequest()
