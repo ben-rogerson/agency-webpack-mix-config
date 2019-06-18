@@ -1,11 +1,9 @@
 {
   "name": "agency-webpack-mix-config",
   "scripts": {
-    "start": "npm run webpack-dev-server",
-    "watch": "npm run webpack-watch",
-    "webpack-dev-server": "NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --quiet --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "webpack-watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js --watch",
-    "build": "NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "dev": "NODE_ENV=development webpack-dev-server --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "start": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "build": "NODE_ENV=production webpack --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "fix-scripts": "eslint --fix 'src/scripts/**/*.{vue,js,jsx,mjs}'",
     "fix-styles": "stylelint --fix 'src/styles/**/*.{css,sass,scss}'"
   },
