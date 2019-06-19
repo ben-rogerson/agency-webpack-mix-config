@@ -1,10 +1,12 @@
 /**
  * ===========================
  * Agency Webpack Mix Config
+ * A modern build config built with the busy web agency in mind.
+ * https://github.com/ben-rogerson/agency-webpack-mix-config
  * ===========================
  *
  * Contents
- * ---------------------------
+ *
  * ⚙️ Settings
  * 🎨 Styles
  * 🎨 Styles: PurgeCSS
@@ -64,6 +66,7 @@ const source = {
 mix.setPublicPath(config.publicFolder)
 
 // ⚙️ Notifications
+// https://laravel-mix.com/docs/4.0/os-notifications
 mix.disableSuccessNotifications()
 
 // ⚙ Source maps
@@ -94,22 +97,28 @@ styleFiles.forEach(styleFile => {
 
 /**
  * 🎨 Styles: CriticalCSS
+ * https://github.com/addyosmani/critical#options
  */
-// {
-//     base: "./web/dist/criticalcss/",
-//     suffix: "_critical.min.css",
-//     criticalHeight: 1200,
-//     criticalWidth: 1200,
-//     ampPrefix: "amp_",
-//     ampCriticalHeight: 19200,
-//     ampCriticalWidth: 600,
-//     pages: [
-//         {
-//             url: "",
-//             template: "index"
-//         }
-//     ]
-// }
+const criticalUrls = [{ urlPath: "/", label: "index" }]
+const criticalDomain = process.env.BASE_URL || config.devProxyDomain
+require("laravel-mix-critical")
+const url = require("url")
+mix.critical({
+    enabled: mix.inProduction(),
+    urls: criticalUrls.map(page => ({
+        src: url.resolve(criticalDomain, page.urlPath),
+        dest: path.join(
+            config.publicFolder,
+            config.publicBuildFolder,
+            "criticalcss",
+            `${page.label}_critical.min.css`
+        ),
+    })),
+    options: {
+        width: 1200,
+        height: 1200,
+    },
+})
 
 /**
  * 🎨 Styles: PurgeCSS
@@ -123,21 +132,23 @@ styleFiles.forEach(styleFile => {
 
 /**
  * 🎨 Styles: PostCSS + other options
+ * https://laravel-mix.com/docs/4.0/options
  */
 mix.options({
+    extractVueStyles: false,
+    // https://laravel-mix.com/docs/4.0/css-preprocessors#postcss-plugins
     postCss: [
-        // require('postcss-preset-env')({
-        //     autoprefixer: { grid: true },
-        //     features: {
-        //         'nesting-rules': true
-        //     }
-        // })
+        // https://github.com/csstools/postcss-preset-env#readme
+        require("postcss-preset-env")({ stage: 2 }),
     ],
-    processCssUrls: false, // Off as this process is expensive
+    // Disable processing css urls for speed
+    // https://laravel-mix.com/docs/4.0/css-preprocessors#css-url-rewriting
+    processCssUrls: false,
 })
 
 /**
  * 📑 Scripts: Main
+ * https://laravel-mix.com/docs/4.0/mixjs
  */
 const scriptFiles = getFilesIn(path.resolve(__dirname, source.scripts), [
     "js",
@@ -150,15 +161,15 @@ scriptFiles.forEach(scriptFile => {
 
 /**
  * 📑 Scripts: Polyfills
- * Uses core-js@3 to automatically support target browsers
+ * Automatically support target browsers with core-js@3
  * https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md
  * https://github.com/scottcharlesworth/laravel-mix-polyfill#options
  */
 require("laravel-mix-polyfill")
 mix.polyfill({
-    enabled: true,
+    enabled: mix.inProduction(),
     useBuiltIns: "usage", // Only add a polyfill when the feature is used
-    targets: false, // "false" falls back default to package.json definitions
+    targets: false, // "false" falls back to browserslist in package.json
     corejs: 3,
     debug: false, // "true" to check which polyfills are being used
 })
@@ -166,7 +177,7 @@ mix.polyfill({
 /**
  * 📑 Scripts: Vendor
  * Separate the JavaScript code imported from node_modules
- * https://github.com/JeffreyWay/laravel-mix/blob/master/docs/extract.md
+ * https://laravel-mix.com/docs/4.0/extract
  */
 mix.extract() // Empty params = separate all node_modules
 // mix.extract(['jquery']) // Specify packages to add to the vendor file
@@ -174,7 +185,7 @@ mix.extract() // Empty params = separate all node_modules
 /**
  * 📑 Scripts: Auto import libraries
  * Make JavaScript libraries available without an import
- * https://github.com/JeffreyWay/laravel-mix/blob/master/docs/autoloading.md
+ * https://laravel-mix.com/docs/4.0/autoloading
  */
 mix.autoload({
     jquery: ["$", "jQuery", "window.jQuery"],
@@ -208,7 +219,7 @@ mix.imagemin(
     {
         gifsicle: { interlaced: true },
         mozjpeg: { progressive: true, arithmetic: false },
-        optipng: { optimizationLevel: 3 }, // lower number = speedier/reduced compression
+        optipng: { optimizationLevel: 3 }, // Lower number = speedier/reduced compression
         svgo: {
             plugins: [
                 { convertPathData: false },
@@ -238,8 +249,7 @@ mix.webpackConfig({
     //     chunkFilename: path.join(config.publicBuildFolder, "[name].js"),
     // },
     resolve: {
-        // Project folder aliases
-        alias: source,
+        alias: source, // Project folder aliases
     },
     plugins: [
         // Clear previous build files before new build
@@ -279,7 +289,6 @@ if (!mix.inProduction()) {
             public: "localhost:8080",
             host: "0.0.0.0", // Allows access from network
             https: config.devProxyDomain.includes("https://"),
-            inline: true,
             quiet: true,
             hot: true,
             overlay: true,

@@ -1,9 +1,9 @@
 {
   "name": "agency-webpack-mix-config",
   "scripts": {
-    "dev": "NODE_ENV=development webpack-dev-server --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "dev": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "start": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "build": "NODE_ENV=production webpack --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "build": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "fix-scripts": "eslint --fix 'src/scripts/**/*.{vue,js,jsx,mjs}'",
     "fix-styles": "stylelint --fix 'src/styles/**/*.{css,sass,scss}'"
   },
@@ -18,12 +18,15 @@
     "eslint": "^5.16.0",
     "eslint-loader": "^2.1.2",
     "eslint-plugin-compat": "^3.1.1",
+    "html-critical-webpack-plugin": "^2.1.0",
     "imagemin-webpack-plugin": "^2.4.2",
     "laravel-mix": "^4.0.16",
+    "laravel-mix-critical": "^0.1.2",
     "laravel-mix-imagemin": "1.0.0",
     "laravel-mix-polyfill": "^1.0.2",
     "laravel-mix-purgecss": "^4.1.0",
     "laravel-mix-svg-sprite": "^1.0.0",
+    "postcss-preset-env": "^6.6.0",
     "sass": "^1.21.0",
     "sass-loader": "^7.1.0",
     "stylelint": "^10.1.0",
