@@ -1,5 +1,28 @@
 body {
-    background: #000;
+    background: black;
     color: #FFF;
-    padding: 5%;
+    // padding: 5%;
+    font-size: 500%;
+    user-select: none;
+    // appearance: none;
+}
+
+p:matches(:first-child, .special) {
+    margin-top: 1em;
+}
+
+.styled {
+    color: pink;
+    background-color: rebeccapurple;
+    padding: 50px;
+    position: absolute;
+    top: 1199px;
+}
+
+.styled-down {
+    color: red;
+    background-color: blue;
+
+    position: absolute;
+    top: 1200px;
 }

@@ -9,8 +9,10 @@
  *
  * ⚙️ Settings
  * 🎨 Styles
+ * 🎨 Styles: CriticalCSS
  * 🎨 Styles: PurgeCSS
  * 🎨 Styles: PostCSS
+ * 🎨 Styles: Other
  * 📑 Scripts
  * 📑 Scripts: Vendor
  * 📑 Scripts: Polyfills
@@ -20,19 +22,13 @@
  * 🗂️ Static files
  * 🎁 Webpack config
  * 🎭 File hashing
- * 👷 Style files HMR patch
  */
 
 /**
  * TODO:
- * - Add instructions for Craft install
- * - Template reload watcher (reload after error?)
+ * - Template reload watcher (reload after error)
  * - Customise the notification message
- * - Add postcss-preset-env
- * - PurgeCSS config + testing
- * - Critical CSS config + testing
  * - Reduce the build path key
- *
  */
 
 /**
@@ -100,7 +96,9 @@ styleFiles.forEach(styleFile => {
  * https://github.com/addyosmani/critical#options
  */
 const criticalUrls = [{ urlPath: "/", label: "index" }]
+// Set the baseurl in your .env, eg: `BASE_URL=http://google.com`
 const criticalDomain = process.env.BASE_URL || config.devProxyDomain
+console.log(criticalDomain)
 require("laravel-mix-critical")
 const url = require("url")
 mix.critical({
@@ -122,25 +120,41 @@ mix.critical({
 
 /**
  * 🎨 Styles: PurgeCSS
+ * https://github.com/spatie/laravel-mix-purgecss#usage
  */
-// require("laravel-mix-purgecss")
-// mix.purgeCss({
-//     enabled: mix.inProduction(),
-//     folders: ["src", "templates"],
-//     extensions: ["php", "twig", "html", "js", "mjs", "vue"],
-// })
+require("laravel-mix-purgecss")
+mix.purgeCss({
+    enabled: mix.inProduction(),
+    globs: [path.join(__dirname, config.publicFolder, "*.html")],
+    folders: ["src", "templates"], // Folders scanned for selectors
+    extensions: ["php", "twig", "html", "js", "mjs", "vue"],
+})
 
 /**
- * 🎨 Styles: PostCSS + other options
+ * 🎨 Styles: PostCSS
+ * https://laravel-mix.com/docs/4.0/css-preprocessors#postcss-plugins
+ */
+mix.options({
+    postCss: [
+        // Postcss preset env: Use pre-implemented css features
+        // See https://cssdb.org/ for supported features
+        // Note: Depending on support you may need to adjust
+        // your development browserslist in package.json.
+        // https://github.com/csstools/postcss-preset-env#readme
+        // Stage 1 = Editors draft (experimental)
+        // Stage 2 = Working draft (allowable)
+        // Stage 3 = Candidate Recommendation (embraced)
+        require("postcss-preset-env")({ stage: 2 }),
+    ],
+})
+
+/**
+ * 🎨 Styles: Other
  * https://laravel-mix.com/docs/4.0/options
  */
 mix.options({
+    // Extract Vue styles to a separate file
     extractVueStyles: false,
-    // https://laravel-mix.com/docs/4.0/css-preprocessors#postcss-plugins
-    postCss: [
-        // https://github.com/csstools/postcss-preset-env#readme
-        require("postcss-preset-env")({ stage: 2 }),
-    ],
     // Disable processing css urls for speed
     // https://laravel-mix.com/docs/4.0/css-preprocessors#css-url-rewriting
     processCssUrls: false,
@@ -177,6 +191,7 @@ mix.polyfill({
 /**
  * 📑 Scripts: Vendor
  * Separate the JavaScript code imported from node_modules
+ * Be sure to load the manifest.js file that gets created
  * https://laravel-mix.com/docs/4.0/extract
  */
 mix.extract() // Empty params = separate all node_modules
@@ -313,25 +328,6 @@ if (!mix.inProduction()) {
 }
 
 /**
- * 👷 Style files HMR patch
- * Removal of the deprecated loader with no hmr support
- * https://github.com/webpack-contrib/extract-text-webpack-plugin
- */
-if (!mix.inProduction()) {
-    Mix.listen("configReady", config => {
-        for (rule of config.module.rules) {
-            if (styleFiles.includes(String(rule.test))) {
-                rule.use = rule.use.filter(
-                    i =>
-                        !i.loader ||
-                        !i.loader.includes(`extract-text-webpack-plugin`)
-                )
-            }
-        }
-    })
-}
-
-/**
  * 🎭 File hashing
  * Mix has querystring hashing by default, eg: main.css?id=abcd1234
  * This script converts it to filename hashing, eg: main.abcd1234.css
@@ -352,7 +348,8 @@ if (mix.inProduction()) {
             const newJson = {}
             const oldFiles = []
             _.forIn(obj, (value, key) => {
-                // Get the hash from the ?id= query string parameter and move it into the file name e.g. 'app.abcd1234.css'
+                // Get the hash from the ?id= query string parameter and
+                // move it into the file name e.g. 'app.abcd1234.css'
                 const newFilename = value.replace(
                     /([^.]+)\.([^?]+)\?id=(.+)$/g,
                     "$1.$3.$2"

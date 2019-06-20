@@ -55,7 +55,7 @@ npm install
 
 ### 3. Add your project files
 
-In this example I'll grab the files from the [Craft CMS starter](https://github.com/craftcms/craft) on Github:<br>
+In this example I'll merge in the files from the [Craft CMS starter](https://github.com/craftcms/craft) on Github:<br>
 ```bash
 npx degit --force craftcms/craft
 # or
