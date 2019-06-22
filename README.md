@@ -1,42 +1,33 @@
-<p><img width="100%" src="" alt="Agency Webpack Mix Config words"></p>
+<p><img width="100%" src="" alt="Icon"></p>
 
 # Agency Webpack-Mix Config
 
-A modern build config built with the busy web agency in mind.
+A capable website/webapp config built for the modern web agency.
 
-It provides an excellent developer experience with a familiar filesystem for your project files and Webpacks fast dev server.
-
-Waste less time testing in older browsers with automatic polyfills to the browsers you support.
-
-## Config features
-
-- Adapts well to new projects<br>
-[Laravel Mix](https://laravel.com/docs/5.8/mix#introduction) helps make build adjustments quick and painless
-
-- Frictionless media additions<br>
-Add project files or npm libraries without restarting your dev server
-
-- Minimal config files<br>
-Avoid excessive build files polluting your project
+Featuring a top-class developer experience and simple filing system for your project assets, this config provides a solid platform for your next website (or web app).
 
 - Modern and popular defaults<br>
-ES6+ JavaScript, Style and script linting, Fast development builds
+Use next generation JavaScript and CSS with polyfills automatically applied to the browsers you choose to support.
 
-- Source aliases to reduce folder traversals<br>
-More `images/resource.jpg`, less `./../../images/resource.jpg`
-- [Browserslist](https://github.com/browserslist/browserslist#browserslist-) powered polyfills<br>
-TODO: Elaborate...
-- Scripts > Separate node_module scripts file
-- Scripts > Library autoimport
-- Scripts > Linting with EsLint
-- Styles > [PurgeCSS](https://www.purgecss.com/)
-- Styles > [PostCSS](https://postcss.org/)
-- Styles > Linting with StyleLint
-- Images > SVG icon sprite
-- Images > Image and SVG compression
-- Sourcemaps
-- Manifest updates
-- Filename hashing
+- Frictionless media additions<br>
+Add project files or npm libraries without restarting your dev server. Generate additional style and script files just by adding them to their src directories.
+
+- Minimal config files<br>
+Avoids excessive build configuration files. All the config is defined in `webpack.mix.js` and `package.json`.
+
+- Source folder aliases to reduce folder traversals<br>
+More `images/resource.jpg` with less `./../../images/resource.jpg`.
+
+- Sensible configuration complexity<br>
+Raw Webpack configs are complex and can take a long time to learn. [Laravel Mix](https://laravel.com/docs/5.8/mix#introduction) provides a simple layer upon Webpack to help make many build adjustments quick and painless.
+
+## Src folder actions
+
+- ```styles```: [Sass](http://sass-lang.com) / [Less](http://lesscss.org) auto compiling, prefixing, minifying and sourcemapping. Preconfigured [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) to improve your page speed and [postcss-preset-env](https://github.com/csstools/postcss-preset-env) to provide backwards capability. [PostCSS](https://postcss.org/) for Autoprefixer and additional plugins. [StyleLint](https://github.com/stylelint/stylelint) provided for error linting.
+- ```scripts```: Script transpiling with [Babel](https://babeljs.io), minifying and sourcemapping. Automatic polyfills are provided by core-js 3. [ESLint](https://eslint.org/) provided for error linting.
+- ```images```: Images are automatically optimized with [Imagemin](https://github.com/imagemin/imagemin)
+- ```icon```: Individual SVG icons are combined into a single cacheable SVG
+- ```static```: Additional folders to be copied to your build folders
 
 ## Getting started
 
