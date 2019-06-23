@@ -35,8 +35,6 @@ Style files are compiled to CSS and PostCss plugins provide additional transform
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-styles.png" alt="Styles src folder"></p>
 
-#### Details
-
 -   [Sass](http://sass-lang.com) / [Less](http://lesscss.org) auto compiling, prefixing, minifying and sourcemaps
 -   [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) come preconfigured to improve your page speed
 -   [Autoprefixer](https://github.com/postcss/autoprefixer) and [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) provide support for older browsers
