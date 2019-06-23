@@ -25,29 +25,34 @@ Featuring a top-class developer experience and simple filing system for your pro
 
 ### `src/styles`
 
-[Sass](http://sass-lang.com) / [Less](http://lesscss.org) auto compiling, prefixing, minifying and sourcemapping. Preconfigured [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) to improve your page speed and [postcss-preset-env](https://github.com/csstools/postcss-preset-env) to provide backwards capability. [PostCSS](https://postcss.org/) for Autoprefixer and additional plugins. [StyleLint](https://github.com/stylelint/stylelint) provided for error linting.
+[Sass](http://sass-lang.com) / [Less](http://lesscss.org) auto compiling, prefixing, minifying and sourcemaps.<br>
+[CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) come preconfigured to improve your page speed.<br>
+[PostCSS](https://postcss.org/) for Autoprefixer and [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) to provide backwards capability.<br>
+[StyleLint](https://github.com/stylelint/stylelint) provided for error linting.
 
-<p><img width="100%" style="max-width:550px;" src="src/images/demo-styles.png" alt="Styles src folder"></p>
+<p><img width="100%" style="max-width:600px;" src="src/images/demo-styles.png" alt="Styles src folder"></p>
 
 ### `src/scripts`
 
-Script transpiling with [Babel](https://babeljs.io), minifying and sourcemapping. Automatic polyfills are provided by core-js 3. [ESLint](https://eslint.org/) provided for error linting.
+Script transpiling with [Babel](https://babeljs.io) with minifying and sourcemaps.<br>
+Automatic polyfills are provided by core-js 3.<br>
+[ESLint](https://eslint.org/) is provided for error linting.
 
-<p><img width="100%" style="max-width:550px;" src="src/images/demo-scripts.png" alt="Script src folder"></p>
+<p><img width="100%" style="max-width:600px;" src="src/images/demo-scripts.png" alt="Script src folder"></p>
 
 ### `src/images`
 
 Images are optimized with [Imagemin](https://github.com/imagemin/imagemin) and copied to the `dist` folder.
 
-<p><img width="100%" style="max-width:550px;" src="src/images/demo-images.png" alt="Image src folder"></p>
+<p><img width="100%" style="max-width:600px;" src="src/images/demo-images.png" alt="Image src folder"></p>
 
 ### `src/icons`
 
 Individual SVG icons are optimised then combined into a single cacheable SVG.
 
-<p><img width="100%" style="max-width:550px;" src="src/images/demo-icons.png" alt="Icons src folder"></p>
+<p><img width="100%" style="max-width:600px;" src="src/images/demo-icons.png" alt="Icons src folder"></p>
 
-An included script then adds the svg to your page so you can display an icon like this:<br/>
+An async script then adds the svg sprite which lets you display an icon like this:<br/>
 
 ```html
 <svg><use xlink:href="icon-code" /></svg>
@@ -55,7 +60,9 @@ An included script then adds the svg to your page so you can display an icon lik
 
 ### `src/static`
 
-Additional folders to be copied to your build folders
+Additional folders with no build processing requirements which are copied to your build folders.
+
+<p><img width="100%" style="max-width:600px;" src="src/images/demo-static.png" alt="Static src folder"></p>
 
 ## Getting started
 
