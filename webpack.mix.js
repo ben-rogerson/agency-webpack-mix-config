@@ -1,7 +1,7 @@
 /**
  * ===========================
- * Agency Webpack Mix Config
- * A modern build config built with the busy web agency in mind.
+ * Agency Webpack-Mix Config
+ * A capable website/webapp config built for the modern web agency.
  * https://github.com/ben-rogerson/agency-webpack-mix-config
  * ===========================
  *
@@ -22,13 +22,6 @@
  * 🗂️ Static files
  * 🎁 Webpack config
  * 🎭 File hashing
- */
-
-/**
- * TODO:
- * - Template reload watcher (reload after error)
- * - Customise the notification message
- * - Reduce the build path key
  */
 
 /**
@@ -67,8 +60,6 @@ if (mix.inProduction()) mix.sourceMaps()
 // ⚙️ Notifications
 // https://laravel-mix.com/docs/4.0/os-notifications
 mix.disableNotifications()
-const WebpackNotifierPlugin = require("webpack-notifier")
-// mix.webpackConfig({})
 
 /**
  * 🎨 Styles: Main
@@ -164,6 +155,7 @@ mix.options({
 
 /**
  * 📑 Scripts: Main
+ * Script files are transpiled to vanilla JavaScript
  * https://laravel-mix.com/docs/4.0/mixjs
  */
 const scriptFiles = getFilesIn(path.resolve(__dirname, source.scripts), [
@@ -211,7 +203,7 @@ mix.autoload({
 
 /**
  * 🎆 SVG icon sprite
- * Combines SVG icons into a single SVG
+ * Individual SVG icons are optimised then combined into a single cacheable SVG
  * https://github.com/kisenka/svg-sprite-loader#configuration
  */
 require("laravel-mix-svg-sprite")
@@ -222,7 +214,7 @@ mix.svgSprite(source.icons, path.join(config.publicBuildFolder, "sprite.svg"), {
 
 /**
  * 🏞 Images
- * Compresses the files and copies to build directory
+ * Images are optimized and copies to build directory
  * https://github.com/Klathmon/imagemin-webpack-plugin#api
  * Locked at version 1.0.0 for config compat issues
  */
@@ -252,7 +244,7 @@ mix.imagemin(
 
 /**
  * 🗂️ Static files
- * A copy and paste task
+ * Additional folders with no transform requirements are copied to your build folders
  */
 mix.copyDirectory(
     source.static,
@@ -273,11 +265,6 @@ mix.webpackConfig({
         alias: source, // Project folder aliases
     },
     plugins: [
-        new WebpackNotifierPlugin({
-            title: "Agency Webpack Mix Config",
-            // skipFirstNotification: true,
-            contentImage: "icon.png",
-        }),
         // Clear previous build files before new build
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: config.publicCleanBefore,

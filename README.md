@@ -2,8 +2,6 @@
 
 <p><img width="100%" style="max-width:650px;" src="src/images/demo-logo.png" alt="Icon"></p>
 
-A capable website/webapp config built for the modern web agency.
-
 Featuring a top-class developer experience and simple filing system for your project assets, this config provides a solid platform for your next website (or web app).
 
 ## Features
@@ -18,13 +16,12 @@ After starting the dev-server, add new project files or npm libraries without ha
 
 ### Minimal config files
 
-Avoid excessive build configuration files.<br>
-All the config is defined in `webpack.mix.js`.<br>
-`package.json` contains browser targets and linting configs.
+Avoid excessive build configuration files with all config defined in `webpack.mix.js`.<br>
+The `package.json` contains browser targets and linting configs.
 
 ### Source folder aliases to reduce folder traversals
 
-More `images/resource.jpg` with less `./../../images/resource.jpg`.
+This means more `images/resource.jpg` with less `./../../images/resource.jpg` when you include assets.
 
 ### Sensible configuration complexity
 
@@ -53,17 +50,16 @@ Script files are transpiled to vanilla JavaScript and the necessary polyfills in
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-scripts.png" alt="Script src folder"></p>
 
-#### Features
-
 -   Script transpiling with [Babel](https://babeljs.io) with minifying and sourcemaps
 -   Automatic polyfills are provided by core-js 3
+    Uses dart-sass which has a replica API to Node-Sass
 -   [ESLint](https://eslint.org/) is provided for error linting
 
 <br>
 
 ### `src/images`
 
-Images are optimized and placed in the `dist` folder.
+Images are optimized and copies to build directory.
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-images.png" alt="Image src folder"></p>
 
