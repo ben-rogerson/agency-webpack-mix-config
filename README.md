@@ -27,9 +27,13 @@ Featuring a top-class developer experience and simple filing system for your pro
 
 [Sass](http://sass-lang.com) / [Less](http://lesscss.org) auto compiling, prefixing, minifying and sourcemapping. Preconfigured [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) to improve your page speed and [postcss-preset-env](https://github.com/csstools/postcss-preset-env) to provide backwards capability. [PostCSS](https://postcss.org/) for Autoprefixer and additional plugins. [StyleLint](https://github.com/stylelint/stylelint) provided for error linting.
 
+<p><img width="100%" style="max-width:550px;" src="src/images/demo-styles.png" alt="Styles src folder"></p>
+
 ### `src/scripts`
 
 Script transpiling with [Babel](https://babeljs.io), minifying and sourcemapping. Automatic polyfills are provided by core-js 3. [ESLint](https://eslint.org/) provided for error linting.
+
+<p><img width="100%" style="max-width:550px;" src="src/images/demo-scripts.png" alt="Script src folder"></p>
 
 ### `src/images`
 
