@@ -1,6 +1,5 @@
 mix-manifest.json
 /dist
-/static
 /hot
 
 /*.js

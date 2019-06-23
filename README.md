@@ -2,10 +2,11 @@
 
 <p><img width="100%" style="max-width:650px;" src="src/images/demo-logo.png" alt="Icon"></p>
 
-<big>
 A capable website/webapp config built for the modern web agency.
 
-Featuring a top-class developer experience and simple filing system for your project assets, this config provides a solid platform for your next website (or web app).</big>
+Featuring a top-class developer experience and simple filing system for your project assets, this config provides a solid platform for your next website (or web app).
+
+## Features
 
 ### Modern mainstream defaults
 
@@ -13,11 +14,13 @@ Use next generation JavaScript and CSS with polyfills automatically applied to t
 
 ### Frictionless media additions
 
-Add project files or npm libraries without restarting your dev server. Generate additional style and script files just by adding them to their src directories.
+After starting the dev-server, add new project files or npm libraries without having to restart the server. Generate additional style and script outputs just by adding them to their `src` directory.
 
 ### Minimal config files
 
-Avoids excessive build configuration files. All the config is defined in `webpack.mix.js` and `package.json`.
+Avoid excessive build configuration files.<br>
+All the config is defined in `webpack.mix.js`.<br>
+`package.json` contains browser targets and linting configs.
 
 ### Source folder aliases to reduce folder traversals
 
@@ -25,7 +28,7 @@ More `images/resource.jpg` with less `./../../images/resource.jpg`.
 
 ### Sensible configuration complexity
 
-Raw Webpack configs are complex and can take a long time to learn. [Laravel Mix](https://laravel.com/docs/5.8/mix#introduction) provides a simple layer upon Webpack to help make many build adjustments quick and painless.
+Because of the complexity of raw Webpack configs, they can take an extended time to understand. [Laravel Mix](https://laravel.com/docs/5.8/mix#introduction) provides a simple layer upon Webpack to help make many build adjustments quick and painless.
 
 ## Build actions
 
@@ -35,16 +38,18 @@ Style files are compiled to CSS and PostCss plugins provide additional transform
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-styles.png" alt="Styles src folder"></p>
 
-#### Features
+#### Details
 
 -   [Sass](http://sass-lang.com) / [Less](http://lesscss.org) auto compiling, prefixing, minifying and sourcemaps
 -   [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) come preconfigured to improve your page speed
 -   [Autoprefixer](https://github.com/postcss/autoprefixer) and [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) provide support for older browsers
 -   [StyleLint](https://github.com/stylelint/stylelint) provides error linting for oopsies
 
+<br>
+
 ### `src/scripts`
 
-...
+Script files are transpiled to vanilla JavaScript and the necessary polyfills included.
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-scripts.png" alt="Script src folder"></p>
 
@@ -54,11 +59,17 @@ Style files are compiled to CSS and PostCss plugins provide additional transform
 -   Automatic polyfills are provided by core-js 3
 -   [ESLint](https://eslint.org/) is provided for error linting
 
+<br>
+
 ### `src/images`
 
-Images are optimized with [Imagemin](https://github.com/imagemin/imagemin) and copied to the `dist` folder.
+Images are optimized and placed in the `dist` folder.
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-images.png" alt="Image src folder"></p>
+
+-   Optimisations are provided by [Imagemin](https://github.com/imagemin/imagemin)
+
+<br>
 
 ### `src/icons`
 
@@ -66,17 +77,22 @@ Individual SVG icons are optimised then combined into a single cacheable SVG.
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-icons.png" alt="Icons src folder"></p>
 
-An async script then adds the svg sprite which lets you display an icon like this:<br/>
+-   An async script adds the svg sprite to your page
+-   You can display an icon with svg use:<br/>
 
 ```html
 <svg><use xlink:href="icon-code" /></svg>
 ```
 
+<br>
+
 ### `src/static`
 
-Additional folders with no build processing requirements which are copied to your build folders.
+Additional folders with no transform requirements are copied to your build folders.
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-static.png" alt="Static src folder"></p>
+
+<br>
 
 ## Getting started
 
@@ -106,15 +122,17 @@ npx degit --force craftcms/craft
 
 ## Tasks
 
+The following tasks are available:
+
 ```bash
 npm run dev
-# Development server
+# Run the development server
 
 npm run start
-# Development build
+# Run the development build
 
 npm run build
-# Production build
+# Run the production build
 
 npm run fix-scripts
 # Fixes your javascript with eslint

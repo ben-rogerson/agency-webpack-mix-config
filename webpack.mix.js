@@ -38,7 +38,7 @@ const config = {
     devProxyDomain: "http://mix.test",
     publicFolder: "web",
     publicBuildFolder: "dist",
-    cleanBeforeBuildGlobs: ["dist/**/*", "static/**/*", "mix-manifest.json"],
+    publicCleanBefore: ["dist/**/*", "mix-manifest.json"],
 }
 
 // Imports
@@ -61,23 +61,26 @@ const source = {
 // ⚙️ Base public path
 mix.setPublicPath(config.publicFolder)
 
-// ⚙️ Notifications
-// https://laravel-mix.com/docs/4.0/os-notifications
-mix.disableSuccessNotifications()
-
 // ⚙ Source maps
 if (mix.inProduction()) mix.sourceMaps()
+
+// ⚙️ Notifications
+// https://laravel-mix.com/docs/4.0/os-notifications
+mix.disableNotifications()
+const WebpackNotifierPlugin = require("webpack-notifier")
+// mix.webpackConfig({})
 
 /**
  * 🎨 Styles: Main
  * Uses dart-sass which has a replica API to Node-Sass
- * https://laravel.com/docs/5.8/mix#sass
+ * https://laravel-mix.com/docs/4.0/css-preprocessors
  * https://github.com/sass/node-sass#options
  */
 // Get a list of style files within the base styles folder
 const styleFiles = getFilesIn(path.resolve(__dirname, source.styles), [
     "scss",
     "sass",
+    "less",
 ])
 // Create an asset for every style file
 styleFiles.forEach(styleFile => {
@@ -98,7 +101,6 @@ styleFiles.forEach(styleFile => {
 const criticalUrls = [{ urlPath: "/", label: "index" }]
 // Set the baseurl in your .env, eg: `BASE_URL=http://google.com`
 const criticalDomain = process.env.BASE_URL || config.devProxyDomain
-console.log(criticalDomain)
 require("laravel-mix-critical")
 const url = require("url")
 mix.critical({
@@ -175,7 +177,8 @@ scriptFiles.forEach(scriptFile => {
 
 /**
  * 📑 Scripts: Polyfills
- * Automatically support target browsers with core-js@3
+ * Automatically add polyfills for target browsers with core-js@3
+ * See "browserslist" in package.json for your targets
  * https://github.com/zloirock/core-js/blob/master/docs/2019-03-19-core-js-3-babel-and-a-look-into-the-future.md
  * https://github.com/scottcharlesworth/laravel-mix-polyfill#options
  */
@@ -183,7 +186,7 @@ require("laravel-mix-polyfill")
 mix.polyfill({
     enabled: mix.inProduction(),
     useBuiltIns: "usage", // Only add a polyfill when the feature is used
-    targets: false, // "false" falls back to browserslist in package.json
+    targets: false, // "false" makes the config use browserslist targets in package.json
     corejs: 3,
     debug: false, // "true" to check which polyfills are being used
 })
@@ -251,7 +254,10 @@ mix.imagemin(
  * 🗂️ Static files
  * A copy and paste task
  */
-mix.copyDirectory(source.static, path.join(config.publicFolder, "static"))
+mix.copyDirectory(
+    source.static,
+    path.join(config.publicFolder, config.publicBuildFolder)
+)
 
 /**
  * 🎁 Webpack config: Misc
@@ -267,11 +273,14 @@ mix.webpackConfig({
         alias: source, // Project folder aliases
     },
     plugins: [
+        new WebpackNotifierPlugin({
+            title: "Agency Webpack Mix Config",
+            // skipFirstNotification: true,
+            contentImage: "icon.png",
+        }),
         // Clear previous build files before new build
         new CleanWebpackPlugin({
-            dry: false,
-            verbose: true,
-            cleanOnceBeforeBuildPatterns: config.cleanBeforeBuildGlobs,
+            cleanOnceBeforeBuildPatterns: config.publicCleanBefore,
         }),
     ],
 })
@@ -385,7 +394,7 @@ if (mix.inProduction()) {
 
 /**
  * Get files helper
- * Returns a list of file paths of type in a directory
+ * Returns a list of file paths of specified types in a directory
  * Usage: getFilesIn('/dir', ["js"])
  */
 function getFilesIn(folderPath, matchFiletypes = []) {
