@@ -136,8 +136,3 @@ npm run fix-scripts
 npm run fix-styles
 # Fixes your styles with stylelint
 ```
-
-## Further reading
-
--   [Laravel Mix Docs](https://laravel.com/docs/5.8/mix)
--   [Webpack HMR](https://webpack.js.org/concepts/hot-module-replacement/) (Hot Module Replacement)
