@@ -2,43 +2,57 @@
 
 <p><img width="100%" style="max-width:650px;" src="src/images/demo-logo.png" alt="Icon"></p>
 
+<big>
 A capable website/webapp config built for the modern web agency.
 
-Featuring a top-class developer experience and simple filing system for your project assets, this config provides a solid platform for your next website (or web app).
+Featuring a top-class developer experience and simple filing system for your project assets, this config provides a solid platform for your next website (or web app).</big>
 
--   Modern and popular defaults<br>
-    Use next generation JavaScript and CSS with polyfills automatically applied to the browsers you choose to support.
+### Modern mainstream defaults
 
--   Frictionless media additions<br>
-    Add project files or npm libraries without restarting your dev server. Generate additional style and script files just by adding them to their src directories.
+Use next generation JavaScript and CSS with polyfills automatically applied to the browsers you choose to support.
 
--   Minimal config files<br>
-    Avoids excessive build configuration files. All the config is defined in `webpack.mix.js` and `package.json`.
+### Frictionless media additions
 
--   Source folder aliases to reduce folder traversals<br>
-    More `images/resource.jpg` with less `./../../images/resource.jpg`.
+Add project files or npm libraries without restarting your dev server. Generate additional style and script files just by adding them to their src directories.
 
--   Sensible configuration complexity<br>
-    Raw Webpack configs are complex and can take a long time to learn. [Laravel Mix](https://laravel.com/docs/5.8/mix#introduction) provides a simple layer upon Webpack to help make many build adjustments quick and painless.
+### Minimal config files
 
-## Folder actions
+Avoids excessive build configuration files. All the config is defined in `webpack.mix.js` and `package.json`.
+
+### Source folder aliases to reduce folder traversals
+
+More `images/resource.jpg` with less `./../../images/resource.jpg`.
+
+### Sensible configuration complexity
+
+Raw Webpack configs are complex and can take a long time to learn. [Laravel Mix](https://laravel.com/docs/5.8/mix#introduction) provides a simple layer upon Webpack to help make many build adjustments quick and painless.
+
+## Build actions
 
 ### `src/styles`
 
-[Sass](http://sass-lang.com) / [Less](http://lesscss.org) auto compiling, prefixing, minifying and sourcemaps.<br>
-[CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) come preconfigured to improve your page speed.<br>
-[PostCSS](https://postcss.org/) for Autoprefixer and [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) to provide backwards capability.<br>
-[StyleLint](https://github.com/stylelint/stylelint) provided for error linting.
+Style files are compiled to CSS and PostCss plugins provide additional transformations and optimisations.
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-styles.png" alt="Styles src folder"></p>
 
+#### Features
+
+-   [Sass](http://sass-lang.com) / [Less](http://lesscss.org) auto compiling, prefixing, minifying and sourcemaps
+-   [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) come preconfigured to improve your page speed
+-   [Autoprefixer](https://github.com/postcss/autoprefixer) and [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) provide support for older browsers
+-   [StyleLint](https://github.com/stylelint/stylelint) provides error linting for oopsies
+
 ### `src/scripts`
 
-Script transpiling with [Babel](https://babeljs.io) with minifying and sourcemaps.<br>
-Automatic polyfills are provided by core-js 3.<br>
-[ESLint](https://eslint.org/) is provided for error linting.
+...
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-scripts.png" alt="Script src folder"></p>
+
+#### Features
+
+-   Script transpiling with [Babel](https://babeljs.io) with minifying and sourcemaps
+-   Automatic polyfills are provided by core-js 3
+-   [ESLint](https://eslint.org/) is provided for error linting
 
 ### `src/images`
 
