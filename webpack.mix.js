@@ -38,6 +38,7 @@ const config = {
 const mix = require("laravel-mix")
 const path = require("path")
 const fs = require("fs")
+const getFilesIn = require("get-files-in")
 
 /**
  * ⚙️ Settings: Source folders
@@ -377,32 +378,6 @@ if (mix.inProduction()) {
             })
         })
     })
-}
-
-/**
- * Get files helper
- * Returns a list of file paths of specified types in a directory
- * Usage: getFilesIn('/dir', ["js"])
- */
-function getFilesIn(folderPath, matchFiletypes = []) {
-    const entryPaths = fs
-        .readdirSync(folderPath)
-        .map(entry => path.join(folderPath, entry))
-    const entryPathFiles = entryPaths.filter(entry => {
-        const fileTypeArray = Array.isArray(matchFiletypes)
-            ? matchFiletypes
-            : [matchFiletypes]
-        return fileTypeArray.includes(
-            entry
-                .slice()
-                .split(".")
-                .pop()
-        )
-    })
-    const filePaths = entryPathFiles.filter(entryPath =>
-        fs.statSync(entryPath).isFile()
-    )
-    return filePaths
 }
 
 /**
