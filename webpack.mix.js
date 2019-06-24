@@ -14,8 +14,8 @@
  * 🎨 Styles: PostCSS
  * 🎨 Styles: Other
  * 📑 Scripts
- * 📑 Scripts: Vendor
  * 📑 Scripts: Polyfills
+ * 📑 Scripts: Vendor
  * 📑 Scripts: Auto import libraries
  * 🎆 SVG icon sprite
  * 🏞 Images
@@ -91,7 +91,7 @@ styleFiles.forEach(styleFile => {
  * https://github.com/addyosmani/critical#options
  */
 const criticalUrls = [{ urlPath: "/", label: "index" }]
-// Set the baseurl in your .env, eg: `BASE_URL=http://google.com`
+// (Optional) Set the baseurl in your .env, eg: `BASE_URL=http://google.com`
 const criticalDomain = process.env.BASE_URL || config.devProxyDomain
 require("laravel-mix-critical")
 const url = require("url")
@@ -135,9 +135,6 @@ mix.options({
         // Note: Depending on support you may need to adjust
         // your development browserslist in package.json.
         // https://github.com/csstools/postcss-preset-env#readme
-        // Stage 1 = Editors draft (experimental)
-        // Stage 2 = Working draft (allowable)
-        // Stage 3 = Candidate Recommendation (embraced)
         require("postcss-preset-env")({ stage: 2 }),
     ],
 })
@@ -259,7 +256,7 @@ mix.copyDirectory(
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 mix.webpackConfig({
     // output: {
-    // Custom chunk filenames
+    // // Custom chunk filenames
     //     chunkFilename: path.join(config.publicBuildFolder, "[name].js"),
     // },
     resolve: {
@@ -379,8 +376,3 @@ if (mix.inProduction()) {
         })
     })
 }
-
-/**
- * Dump the config to the console for debugging
- */
-// mix.dump()
