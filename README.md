@@ -57,7 +57,7 @@ Script files are transpiled to vanilla JavaScript and the necessary polyfills in
 
 ### `src/images`
 
-Images are optimized and copies to build directory.
+Images are optimized and copied to the build directory.
 
 <p><img width="100%" style="max-width:600px;" src="src/images/demo-images.png" alt="Image src folder"></p>
 
