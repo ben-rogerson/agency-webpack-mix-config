@@ -20,7 +20,11 @@
  * 🎆 SVG icon sprite
  * 🏞 Images
  * 🗂️ Static files
- * 🎁 Webpack config
+ * 🎁 Aliases
+ * 🎁 Cleaning
+ * 🎁 Lint scripts
+ * 🎁 Lint styles
+ * 🎁 Webpack-dev-server
  * 🎭 File hashing
  */
 
@@ -250,55 +254,47 @@ mix.copyDirectory(
 )
 
 /**
- * 🎁 Webpack config: Misc
- * Merged webpack configuration
+ * 🎁 Aliases
+ * Add aliases to your project folders
+ */
+mix.webpackConfig({ resolve: { alias: source } })
+
+/**
+ * 🎁 Cleaning
+ * Clear previous build files before new build
  */
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 mix.webpackConfig({
-    // output: {
-    // // Custom chunk filenames
-    //     chunkFilename: path.join(config.publicBuildFolder, "[name].js"),
-    // },
-    resolve: {
-        alias: source, // Project folder aliases
-    },
     plugins: [
-        // Clear previous build files before new build
         new CleanWebpackPlugin({
             cleanOnceBeforeBuildPatterns: config.publicCleanBefore,
         }),
     ],
 })
 
-/**
- * 🎁 Webpack config: Non-production
- * Custom Webpack configuration
- */
 if (!mix.inProduction()) {
-    const StyleLintPlugin = require("stylelint-webpack-plugin")
+    /**
+     * 🎁 Lint scripts
+     */
+    require("laravel-mix-eslint")
+    mix.eslint()
+
+    /**
+     * 🎁 Lint styles
+     */
+    require("laravel-mix-stylelint")
+    mix.stylelint({ configFile: null, context: null })
+
+    /**
+     * 🎁 Webpack-dev-server
+     */
     mix.webpackConfig({
-        module: {
-            rules: [
-                {
-                    // Run JavaScript through eslint
-                    test: /\.(vue|js|jsx|mjs)$/,
-                    enforce: "pre",
-                    loader: "eslint-loader",
-                    exclude: /node_modules/,
-                },
-            ],
-        },
-        plugins: [
-            // Lint styles
-            new StyleLintPlugin(),
-        ],
-        // Custom webpack-dev-server options
         devServer: {
+            clientLogLevel: "none", // Hide console feedback so eslint can do it's thing
             open: true,
             public: "localhost:8080",
             host: "0.0.0.0", // Allows access from network
             https: config.devProxyDomain.includes("https://"),
-            quiet: true,
             hot: true,
             overlay: true,
             contentBase: path.resolve(__dirname, "templates"),
