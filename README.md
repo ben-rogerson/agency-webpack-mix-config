@@ -1,6 +1,6 @@
 # Agency Webpack-Mix Config
 
-<p><img width="100%" style="max-width:650px;" src="src/images/demo-logo.png" alt="Icon"></p>
+<p><img width="100%" style="max-width:650px;" src="https://i.imgur.com/r5iZONo.png" alt="Icon"></p>
 
 Featuring a top-class developer experience and simple filing system for your project assets, this config provides a solid platform for your next website (or web app).
 
@@ -33,9 +33,9 @@ Because of the complexity of raw Webpack configs, they can take an extended time
 
 Style files are compiled to CSS and PostCss plugins provide additional transformations and optimisations.
 
-<p><img width="100%" style="max-width:600px;" src="src/images/demo-styles.png" alt="Styles src folder"></p>
+<p><img width="100%" style="max-width:600px;" src="https://i.imgur.com/H3IkPgK.png" alt="Styles src folder"></p>
 
--   [Sass](http://sass-lang.com) / [Less](http://lesscss.org) auto compiling, prefixing, minifying and sourcemaps
+-   [Sass](http://sass-lang.com) auto compiling, prefixing, minifying and sourcemaps
 -   [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) come preconfigured to improve your page speed
 -   [Autoprefixer](https://github.com/postcss/autoprefixer) and [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) provide support for older browsers
 -   [StyleLint](https://github.com/stylelint/stylelint) provides error linting for oopsies
@@ -46,7 +46,7 @@ Style files are compiled to CSS and PostCss plugins provide additional transform
 
 Script files are transpiled to vanilla JavaScript and the necessary polyfills included.
 
-<p><img width="100%" style="max-width:600px;" src="src/images/demo-scripts.png" alt="Script src folder"></p>
+<p><img width="100%" style="max-width:600px;" src="https://i.imgur.com/pkRrCcB.png" alt="Script src folder"></p>
 
 -   Script transpiling with [Babel](https://babeljs.io) with minifying and sourcemaps
 -   Automatic polyfills are provided by core-js 3
@@ -59,7 +59,7 @@ Script files are transpiled to vanilla JavaScript and the necessary polyfills in
 
 Images are optimized and copied to the build directory.
 
-<p><img width="100%" style="max-width:600px;" src="src/images/demo-images.png" alt="Image src folder"></p>
+<p><img width="100%" style="max-width:600px;" src="https://i.imgur.com/k0zVopU.png" alt="Image src folder"></p>
 
 -   Optimisations are provided by [Imagemin](https://github.com/imagemin/imagemin)
 
@@ -69,7 +69,7 @@ Images are optimized and copied to the build directory.
 
 Individual SVG icons are optimised then combined into a single cacheable SVG.
 
-<p><img width="100%" style="max-width:600px;" src="src/images/demo-icons.png" alt="Icons src folder"></p>
+<p><img width="100%" style="max-width:600px;" src="https://i.imgur.com/YHQ82r9.png" alt="Icons src folder"></p>
 
 -   An async script adds the svg sprite to your page
 -   You can display an icon with svg use:<br/>
@@ -84,7 +84,7 @@ Individual SVG icons are optimised then combined into a single cacheable SVG.
 
 Additional folders with no transform requirements are copied to your build folders.
 
-<p><img width="100%" style="max-width:600px;" src="src/images/demo-static.png" alt="Static src folder"></p>
+<p><img width="100%" style="max-width:600px;" src="https://i.imgur.com/aZc9602.png" alt="Static src folder"></p>
 
 <br>
 
