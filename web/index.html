@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="/dist/main.css">
+
+    <title>Hello!</title>
+</head>
+
+<!-- This is for the icon sprite -->
+
+<body data-icons="/dist/sprite.svg">
+
+    <!-- This is for Vue -->
+    <div id="app"></div>
+
+    <span class="icon">
+        <svg>
+            <use xlink:href="#icon-example" /></svg>
+    </span>
+
+    <!-- When mix.extract is called an extra 'manifest.js' is created
+    and you'll need to load the scripts in the following order.
+    See 'mix.extract()' in the build config for more details. -->
+    <script src="/dist/manifest.js"></script>
+    <script src="/dist/vendor.js"></script>
+    <script src="/dist/main.js"></script>
+</body>
+
+</html>
