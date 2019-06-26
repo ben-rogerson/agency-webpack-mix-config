@@ -60,7 +60,7 @@ const source = {
 mix.setPublicPath(config.publicFolder)
 
 // ⚙ Source maps
-if (mix.inProduction()) mix.sourceMaps()
+mix.sourceMaps()
 
 // ⚙️ Notifications
 // https://laravel-mix.com/docs/4.0/os-notifications
