@@ -1,28 +1,31 @@
 body {
-    background: black;
-    color: #FFF;
-    // padding: 5%;
-    font-size: 500%;
-    user-select: none;
-    // appearance: none;
+    background: #3064FA;
+    color: white;
+    font-size: 10em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
 }
 
-p:matches(:first-child, .special) {
-    margin-top: 1em;
+.icon {
+    display: inline-block;
+    fill: none;
+    stroke: currentColor;
+    vertical-align: middle;
+    svg {
+        width: 1em;
+        height: 1em;
+        display: block;
+    }
 }
 
-.styled {
-    color: pink;
-    background-color: rebeccapurple;
-    padding: 50px;
-    position: absolute;
-    top: 1199px;
+.icon {
+    animation: breathe 1s infinite alternate ease-in-out;
 }
-
-.styled-down {
-    color: red;
-    background-color: blue;
-
-    position: absolute;
-    top: 1200px;
+@keyframes breathe {
+    to {
+        transform: scale(1.25);
+    }
 }
