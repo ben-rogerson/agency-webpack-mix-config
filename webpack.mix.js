@@ -34,7 +34,7 @@ const config = {
     devProxyDomain: "http://mix.test",
     publicFolder: "web",
     publicBuildFolder: "dist",
-    publicCleanBefore: ["dist/**/*", "mix-manifest.json"],
+    publicCleanBefore: ["dist/**/*", "/*.js", "/*.map", "mix-manifest.json"],
 }
 
 // Imports
