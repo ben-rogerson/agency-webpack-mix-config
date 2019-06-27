@@ -15,7 +15,6 @@
  * 🎨 Styles: Other
  * 📑 Scripts
  * 📑 Scripts: Polyfills
- * 📑 Scripts: Vendor
  * 📑 Scripts: Auto import libraries
  * 🎆 SVG icon sprite
  * 🏞 Images
@@ -184,15 +183,6 @@ mix.polyfill({
     corejs: 3,
     debug: false, // "true" to check which polyfills are being used
 })
-
-/**
- * 📑 Scripts: Vendor
- * Separate the JavaScript code imported from node_modules
- * Be sure to load the manifest.js file that gets created
- * https://laravel-mix.com/docs/4.0/extract
- */
-mix.extract() // Empty params = separate all node_modules
-// mix.extract(['jquery']) // Specify packages to add to the vendor file
 
 /**
  * 📑 Scripts: Auto import libraries
