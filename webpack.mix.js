@@ -7,7 +7,7 @@
  *
  * Contents
  *
- * ⚙️ Settings
+ * 🎚️ Settings
  * 🎨 Styles
  * 🎨 Styles: CriticalCSS
  * 🎨 Styles: PurgeCSS
@@ -27,7 +27,7 @@
  */
 
 /**
- * ⚙️ Settings: General
+ * 🎚️ Settings: General
  */
 const config = {
     devProxyDomain: "http://mix.test",
@@ -42,7 +42,7 @@ const path = require("path")
 const getFilesIn = require("get-files-in")
 
 /**
- * ⚙️ Settings: Source folders
+ * 🎚️ Settings: Source folders
  * The keys double as aliases in this project
  */
 const source = {
@@ -53,17 +53,17 @@ const source = {
     static: path.resolve("src/static"),
 }
 
-// ⚙️ Base public path
+// 🎚️ Base public path
 mix.setPublicPath(config.publicFolder)
 
 // ⚙ Source maps
 mix.sourceMaps()
 
-// ⚙️ Notifications
+// 🎚️ Notifications
 // https://laravel-mix.com/docs/4.0/os-notifications
 mix.disableNotifications()
 
-// ⚙️ Aliases
+// 🎚️ Aliases
 // Add aliases to your project folders
 mix.webpackConfig({ resolve: { alias: source } })
 
