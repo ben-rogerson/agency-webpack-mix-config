@@ -19,7 +19,6 @@
  * 🎆 SVG icon sprite
  * 🏞 Images
  * 🗂️ Static files
- * 🎁 Aliases
  * 🎁 Cleaning
  * 🎁 Lint scripts
  * 🎁 Lint styles
@@ -63,6 +62,10 @@ mix.sourceMaps()
 // ⚙️ Notifications
 // https://laravel-mix.com/docs/4.0/os-notifications
 mix.disableNotifications()
+
+// ⚙️ Aliases
+// Add aliases to your project folders
+mix.webpackConfig({ resolve: { alias: source } })
 
 /**
  * 🎨 Styles: Main
@@ -240,10 +243,6 @@ mix.copyDirectory(
 )
 
 /**
- * 🎁 Aliases
- * Add aliases to your project folders
- */
-mix.webpackConfig({ resolve: { alias: source } })
 
 /**
  * 🎁 Cleaning
