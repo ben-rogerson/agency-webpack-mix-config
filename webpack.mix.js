@@ -19,10 +19,10 @@
  * 🎆 SVG icon sprite
  * 🏞 Images
  * 🗂️ Static files
- * 🎁 Cleaning
- * 🎁 Lint scripts
- * 🎁 Lint styles
- * 🎁 Webpack-dev-server
+ * 🛁 Cleaning
+ * 🚨 Lint scripts
+ * 🚨 Lint styles
+ * 🚧 Webpack-dev-server
  * 🎭 File hashing
  */
 
@@ -92,7 +92,11 @@ styleFiles.forEach(styleFile => {
  * 🎨 Styles: CriticalCSS
  * https://github.com/addyosmani/critical#options
  */
-const criticalUrls = [{ urlPath: "/", label: "index" }]
+// The urls for you'd like generated
+const criticalUrls = [
+    { urlPath: "/", label: "index" },
+    // { urlPath: "/about", label: "about" },
+]
 // (Optional) Set the baseurl in your .env, eg: `BASE_URL=http://google.com`
 const criticalDomain = process.env.BASE_URL || config.devProxyDomain
 require("laravel-mix-critical")
@@ -177,7 +181,7 @@ scriptFiles.forEach(scriptFile => {
 require("laravel-mix-polyfill")
 mix.polyfill({
     enabled: mix.inProduction(),
-    useBuiltIns: "usage", // Only add a polyfill when the feature is used
+    useBuiltIns: "usage", // Only add a polyfill when a feature is used
     targets: false, // "false" makes the config use browserslist targets in package.json
     corejs: 3,
     debug: false, // "true" to check which polyfills are being used
@@ -205,7 +209,7 @@ mix.svgSprite(source.icons, path.join(config.publicBuildFolder, "sprite.svg"), {
 
 /**
  * 🏞 Images
- * Images are optimized and copies to build directory
+ * Images are optimized and copied to the build directory
  * https://github.com/Klathmon/imagemin-webpack-plugin#api
  * Locked at version 1.0.0 for config compat issues
  */
@@ -243,9 +247,7 @@ mix.copyDirectory(
 )
 
 /**
-
-/**
- * 🎁 Cleaning
+ * 🛁 Cleaning
  * Clear previous build files before new build
  */
 const { CleanWebpackPlugin } = require("clean-webpack-plugin")
@@ -259,19 +261,19 @@ mix.webpackConfig({
 
 if (!mix.inProduction()) {
     /**
-     * 🎁 Lint scripts
+     * 🚨 Lint scripts
      */
     require("laravel-mix-eslint")
     mix.eslint()
 
     /**
-     * 🎁 Lint styles
+     * 🚨 Lint styles
      */
     require("laravel-mix-stylelint")
     mix.stylelint({ configFile: null, context: null })
 
     /**
-     * 🎁 Webpack-dev-server
+     * 🚧 Webpack-dev-server
      */
     mix.webpackConfig({
         devServer: {
