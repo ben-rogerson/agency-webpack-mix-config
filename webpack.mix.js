@@ -71,11 +71,8 @@ mix.disableNotifications()
  * https://github.com/sass/node-sass#options
  */
 // Get a list of style files within the base styles folder
-const styleFiles = getFilesIn(path.resolve(__dirname, source.styles), [
-    "scss",
-    "sass",
-    "less",
-])
+const styleFiles = getFilesIn(path.resolve(__dirname, source.styles), [ "scss", "sass" ])
+
 // Create an asset for every style file
 styleFiles.forEach(styleFile => {
     mix.sass(
