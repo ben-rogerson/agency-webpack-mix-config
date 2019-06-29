@@ -7,6 +7,7 @@
  * <body data-icons="PATH_TO_ICON_SPRITE">
  *
  * Use this code to display an icon:
+ * (Css is also required to display the icon correctly)
  * <svg><use xlink:href="{{ "#icon-FILENAME" }}"/></svg>
  */
 
