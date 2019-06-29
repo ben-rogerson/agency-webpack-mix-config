@@ -1,3 +1,5 @@
+// Styles for the demo
+
 body {
     background: #3064FA;
     color: white;
@@ -9,7 +11,9 @@ body {
     margin: 0;
 }
 
+// Use these styles with every icon
 .icon {
+    color: inherit;
     display: inline-block;
     fill: none;
     stroke: currentColor;
@@ -23,9 +27,15 @@ body {
 
 .icon {
     animation: breathe 1s infinite alternate ease-in-out;
+
+    &:hover,
+    &:focus {
+        animation-play-state: paused;
+    }
 }
+
 @keyframes breathe {
     to {
-        transform: scale(1.25);
+        transform: scale(.75);
     }
 }

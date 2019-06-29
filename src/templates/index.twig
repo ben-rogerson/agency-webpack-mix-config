@@ -1,0 +1,15 @@
+{% extends "_layouts/base.twig" %}
+
+{% set title = 'Home' %}
+
+{% block main %}
+
+    <!-- A Vue container -->
+    <div id="app"></div>
+
+    <!-- Display icon from the icon sprite -->
+    <a href="/about" class="icon">
+        <svg><use xlink:href="#icon-example" /></svg>
+    </a>
+
+{% endblock %}

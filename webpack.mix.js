@@ -8,55 +8,71 @@
  * Contents
  *
  * 🎚️ Settings
+ * 🏠 Templates
+ * 🎭 File hashing
  * 🎨 Styles
  * 🎨 Styles: CriticalCSS
  * 🎨 Styles: PurgeCSS
  * 🎨 Styles: PostCSS
+ * 🎨 Styles: Linting
  * 🎨 Styles: Other
  * 📑 Scripts
  * 📑 Scripts: Polyfills
  * 📑 Scripts: Auto import libraries
- * 🎆 SVG icon sprite
+ * 📑 Scripts: Linting
+ * 🎆 Icons
  * 🏞 Images
- * 🗂️ Static files
+ * 🗂️ Static
  * 🛁 Cleaning
- * 🚨 Lint scripts
- * 🚨 Lint styles
  * 🚧 Webpack-dev-server
- * 🎭 File hashing
  */
 
-/**
- * 🎚️ Settings: General
- */
+// 🎚️ Base config
 const config = {
+    // Valet/Homestead/etc domain to proxy
     devProxyDomain: "http://mix.test",
+
+    // Additional template paths to observe for changes (non src templates)
+    devWatchTemplatePaths: ["src/templates"],
+
+    // Folders where purgeCss can look for used selectors
+    purgeCssGrabFolders: ["src"],
+
+    // Urls for CriticalCss to look for "above the fold" Css
+    criticalCssUrls: [
+        { urlPath: "/", label: "index" },
+        // { urlPath: "/about", label: "about" },
+    ],
+
+    // Paths to clean before each start (publicFolder base)
+    publicToCleanBeforeStart: ["dist/**/*", "*.+(js|map|html|json)"],
+
+    // Folder served to users
     publicFolder: "web",
+
+    // Foldername for built src assets (publicFolder base)
     publicBuildFolder: "dist",
-    publicCleanBefore: ["dist/**/*", "/*.js", "/*.map", "mix-manifest.json"],
 }
 
-// Imports
+// 🎚️ Imports
 const mix = require("laravel-mix")
 const path = require("path")
 const getFilesIn = require("get-files-in")
 
-/**
- * 🎚️ Settings: Source folders
- * The keys double as aliases in this project
- */
+// 🎚️ Source folders
 const source = {
     icons: path.resolve("src/icons"),
     images: path.resolve("src/images"),
     scripts: path.resolve("src/scripts"),
     styles: path.resolve("src/styles"),
     static: path.resolve("src/static"),
+    templates: path.resolve("src/templates"),
 }
 
 // 🎚️ Base public path
 mix.setPublicPath(config.publicFolder)
 
-// ⚙ Source maps
+// 🎚️ Source maps
 mix.sourceMaps()
 
 // 🎚️ Notifications
@@ -66,6 +82,61 @@ mix.disableNotifications()
 // 🎚️ Aliases
 // Add aliases to your project folders
 mix.webpackConfig({ resolve: { alias: source } })
+
+/**
+ * 🏠 Templates
+ * Processed to create static html files
+ * https://github.com/jantimon/html-webpack-plugin
+ */
+// Use src/templates if the folder exists
+const useSrcTemplates = source.templates && getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true).length > 0
+if (useSrcTemplates) {
+    const HtmlWebpackPlugin = require("html-webpack-plugin")
+    const templateFiles = getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true)
+    const templateData = templateFiles.map(file => {
+        const isSubPath = source.templates !== path.dirname(file)
+        const prefixPath = isSubPath ? path.dirname(file).split(path.sep).pop() : ''
+        const newFileName = `${path.basename(file, path.extname(file))}.html`
+        return (
+            new HtmlWebpackPlugin({
+                template: file,
+                filename: path.join(prefixPath, newFileName),
+                hash: mix.inProduction(),
+            })
+        )
+    })
+    mix.webpackConfig({
+        module: {
+            rules: [{
+                test: /\.twig$/,
+                use: ['raw-loader', {
+                    loader: 'twig-html-loader',
+                    options: { autoescape: true },
+                }]
+            }]
+        },
+        output: { publicPath: '' }, // Fix path issues
+        plugins: templateData
+    })
+}
+
+/**
+ * 🎭 File hashing
+ * Mix has querystring hashing by default, eg: main.css?id=abcd1234
+ * This script converts it to filename hashing, eg: main.abcd1234.css
+ * https://github.com/JeffreyWay/laravel-mix/issues/1022#issuecomment-379168021
+ */
+if (mix.inProduction() && !useSrcTemplates) {
+    // Allow versioning in production
+    mix.version()
+    // Get the manifest filepath for filehash conversion
+    const manifestPath = path.join(config.publicFolder, "mix-manifest.json")
+    // Run after mix finishes
+    mix.then(() => {
+        const laravelMixMakeFileHash = require("laravel-mix-make-file-hash")
+        laravelMixMakeFileHash(config.publicFolder, manifestPath)
+    })
+}
 
 /**
  * 🎨 Styles: Main

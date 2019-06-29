@@ -1,6 +1,2 @@
-mix-manifest.json
-/dist
-/hot
-
-/*.js
-/*.map
+*
+!/*.ico
