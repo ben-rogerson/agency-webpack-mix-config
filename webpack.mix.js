@@ -93,7 +93,7 @@ const useSrcTemplates = source.templates && getFilesIn(path.resolve(__dirname, s
 if (useSrcTemplates) {
     const HtmlWebpackPlugin = require("html-webpack-plugin")
     const templateFiles = getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true)
-    const templateData = templateFiles.map(file => {
+    const templatePages = templateFiles.map(file => {
         const isSubPath = source.templates !== path.dirname(file)
         const prefixPath = isSubPath ? path.dirname(file).split(path.sep).pop() : ''
         const newFileName = `${path.basename(file, path.extname(file))}.html`
@@ -116,7 +116,7 @@ if (useSrcTemplates) {
             }]
         },
         output: { publicPath: '' }, // Fix path issues
-        plugins: templateData
+        plugins: templatePages
     })
 }
 
