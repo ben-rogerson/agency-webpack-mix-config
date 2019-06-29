@@ -146,16 +146,14 @@ if (mix.inProduction() && !useSrcTemplates) {
  */
 // Get a list of style files within the base styles folder
 const styleFiles = getFilesIn(path.resolve(__dirname, source.styles), [ "scss", "sass" ])
-
+// Data to send to style files
+const styleData = `$isDev: ${!mix.inProduction()};`
 // Create an asset for every style file
 styleFiles.forEach(styleFile => {
     mix.sass(
         styleFile,
         path.join(config.publicFolder, config.publicBuildFolder),
-        {
-            // Send data to the style file
-            data: `$isDev: ${!mix.inProduction()};`,
-        }
+        { data: styleData }
     )
 })
 
@@ -163,43 +161,41 @@ styleFiles.forEach(styleFile => {
  * 🎨 Styles: CriticalCSS
  * https://github.com/addyosmani/critical#options
  */
-// The urls for you'd like generated
-const criticalUrls = [
-    { urlPath: "/", label: "index" },
-    // { urlPath: "/about", label: "about" },
-]
 // (Optional) Set the baseurl in your .env, eg: `BASE_URL=http://google.com`
 const criticalDomain = process.env.BASE_URL || config.devProxyDomain
-require("laravel-mix-critical")
-const url = require("url")
-mix.critical({
-    enabled: mix.inProduction(),
-    urls: criticalUrls.map(page => ({
-        src: url.resolve(criticalDomain, page.urlPath),
-        dest: path.join(
-            config.publicFolder,
-            config.publicBuildFolder,
-            "criticalcss",
-            `${page.label}_critical.min.css`
-        ),
-    })),
-    options: {
-        width: 1200,
-        height: 1200,
-    },
-})
+if (criticalDomain) {
+    require("laravel-mix-critical")
+    const url = require("url")
+    mix.critical({
+        enabled: mix.inProduction() && config.criticalCssUrls.length,
+        urls: config.criticalCssUrls.map(page => ({
+            src: url.resolve(criticalDomain, page.urlPath),
+            dest: path.join(
+                config.publicFolder,
+                config.publicBuildFolder,
+                `critical-${page.label}.css`
+            ),
+        })),
+        options: {
+            width: 1200,
+            height: 1200,
+        },
+    })
+}
 
 /**
  * 🎨 Styles: PurgeCSS
  * https://github.com/spatie/laravel-mix-purgecss#usage
  */
-require("laravel-mix-purgecss")
-mix.purgeCss({
-    enabled: mix.inProduction(),
-    globs: [path.join(__dirname, config.publicFolder, "*.html")],
-    folders: ["src", "templates"], // Folders scanned for selectors
-    extensions: ["php", "twig", "html", "js", "mjs", "vue"],
-})
+if (config.purgeCssGrabFolders.length) {
+    require("laravel-mix-purgecss")
+    mix.purgeCss({
+        enabled: mix.inProduction(),
+        globs: [path.join(__dirname, config.publicFolder, "*.html")],
+        folders: config.purgeCssGrabFolders, // Folders scanned for selectors
+        extensions: ["php", "twig", "html", "js", "mjs", "vue"],
+    })
+}
 
 /**
  * 🎨 Styles: PostCSS
@@ -215,6 +211,14 @@ mix.options({
         require("postcss-preset-env")({ stage: 2 }),
     ],
 })
+
+/**
+ * 🎨 Styles: Linting
+ */
+if (!mix.inProduction()) {
+    require("laravel-mix-stylelint")
+    mix.stylelint({ configFile: null, context: null })
+}
 
 /**
  * 🎨 Styles: Other
@@ -268,7 +272,15 @@ mix.autoload({
 })
 
 /**
- * 🎆 SVG icon sprite
+ * 📑 Scripts: Linting
+ */
+if (!mix.inProduction()) {
+    require("laravel-mix-eslint")
+    mix.eslint()
+}
+
+/**
+ * 🎆 Icons
  * Individual SVG icons are optimised then combined into a single cacheable SVG
  * https://github.com/kisenka/svg-sprite-loader#configuration
  */
@@ -309,7 +321,7 @@ mix.imagemin(
 )
 
 /**
- * 🗂️ Static files
+ * 🗂️ Static
  * Additional folders with no transform requirements are copied to your build folders
  */
 mix.copyDirectory(
@@ -325,70 +337,39 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin")
 mix.webpackConfig({
     plugins: [
         new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: config.publicCleanBefore,
+            cleanOnceBeforeBuildPatterns: config.publicToCleanBeforeStart,
         }),
     ],
 })
 
-if (!mix.inProduction()) {
-    /**
-     * 🚨 Lint scripts
-     */
-    require("laravel-mix-eslint")
-    mix.eslint()
-
-    /**
-     * 🚨 Lint styles
-     */
-    require("laravel-mix-stylelint")
-    mix.stylelint({ configFile: null, context: null })
-
-    /**
-     * 🚧 Webpack-dev-server
-     */
-    mix.webpackConfig({
-        devServer: {
-            clientLogLevel: "none", // Hide console feedback so eslint can do it's thing
-            open: true,
-            public: "localhost:8080",
-            host: "0.0.0.0", // Allows access from network
-            https: config.devProxyDomain.includes("https://"),
-            hot: true,
-            overlay: true,
-            contentBase: path.resolve(__dirname, "templates"),
-            watchContentBase: true,
-            watchOptions: {
-                aggregateTimeout: 200,
-                poll: 100, // Lower for faster reloads (more cpu intensive)
-            },
-            disableHostCheck: true, // Fixes "Invalid Host header error" on assets
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-            },
-            proxy: {
-                context: () => true,
-                target: config.devProxyDomain,
-                changeOrigin: true,
-                secure: false,
-            },
-        },
-    })
-}
-
 /**
- * 🎭 File hashing
- * Mix has querystring hashing by default, eg: main.css?id=abcd1234
- * This script converts it to filename hashing, eg: main.abcd1234.css
- * https://github.com/JeffreyWay/laravel-mix/issues/1022#issuecomment-379168021
+ * 🚧 Webpack-dev-server
  */
-if (mix.inProduction()) {
-    // Allow versioning in production
-    mix.version()
-
-    const manifestPath = path.join(config.publicFolder, "mix-manifest.json")
-    // Run after mix finishes
-    mix.then(() => {
-        const laravelMixMakeFileHash = require("laravel-mix-make-file-hash")
-        laravelMixMakeFileHash(config.publicFolder, manifestPath)
-    })
-}
+mix.webpackConfig({
+    devServer: {
+        clientLogLevel: "none", // Hide console feedback so eslint can take over
+        open: true,
+        public: "localhost:8080",
+        host: "0.0.0.0", // Allows access from network
+        https: config.devProxyDomain.includes("https://"),
+        hot: true,
+        overlay: true,
+        contentBase: config.devWatchTemplatePaths.length ? config.devWatchTemplatePaths : undefined,
+        watchContentBase: config.devWatchTemplatePaths.length > 0,
+        watchOptions: {
+            aggregateTimeout: 200,
+            poll: 200, // Lower for faster reloads (more cpu intensive)
+            ignored: /node_modules/,
+        },
+        disableHostCheck: true, // Fixes "Invalid Host header error" on assets
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+        },
+        proxy: {
+            context: () => true,
+            target: config.devProxyDomain,
+            changeOrigin: true,
+            secure: false,
+        },
+    },
+})
