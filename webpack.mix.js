@@ -38,6 +38,9 @@ const config = {
     // Folders where purgeCss can look for used selectors
     purgeCssGrabFolders: ["src"],
 
+    // Build a static site from the src/template files
+    buildStaticSite: true,
+
     // Urls for CriticalCss to look for "above the fold" Css
     criticalCssUrls: [
         { urlPath: "/", label: "index" },
@@ -89,8 +92,8 @@ mix.webpackConfig({ resolve: { alias: source } })
  * https://github.com/jantimon/html-webpack-plugin
  */
 // Use src/templates if the folder exists
-const useSrcTemplates = source.templates && getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true).length > 0
-if (useSrcTemplates) {
+const buildSrcTemplates = config.buildStaticSite && source.templates && getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true).length > 0
+if (buildSrcTemplates) {
     const HtmlWebpackPlugin = require("html-webpack-plugin")
     const templateFiles = getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true)
     const templatePages = templateFiles.map(file => {
@@ -126,7 +129,7 @@ if (useSrcTemplates) {
  * This script converts it to filename hashing, eg: main.abcd1234.css
  * https://github.com/JeffreyWay/laravel-mix/issues/1022#issuecomment-379168021
  */
-if (mix.inProduction() && !useSrcTemplates) {
+if (mix.inProduction() && !buildSrcTemplates) {
     // Allow versioning in production
     mix.version()
     // Get the manifest filepath for filehash conversion
