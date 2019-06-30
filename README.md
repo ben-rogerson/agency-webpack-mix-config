@@ -6,22 +6,28 @@ Featuring a top-class developer experience and simple filing system for your pro
 
 ## Features
 
+### Sensible configuration complexity
+
+Because of the complexity of raw Webpack configs, they can take an extended time to understand. [Laravel Mix](https://laravel.com/docs/5.8/mix#introduction) provides a simple layer upon Webpack to help make many build adjustments quick and painless.
+
 ### Modern mainstream defaults
 
 Use next generation JavaScript and CSS with polyfills automatically applied to the browsers you choose to support.
 
-### Frictionless media additions
+### Development proxy with script and style injection
 
-After starting the dev-server, add new project files or npm libraries without having to restart the server. Generate additional style and script outputs just by adding them to their `src` directory.
+A pre-configured webpack development server rewards your code changes with snappy browser updates.
+Generate additional style and script outputs just by adding them to a folder in the `src` directory.
+
+### Static site generator
+
+Get straight to the build with a static site generator that converts twig to html.<br>
+There's also full support for CMS based sites by updating a few config values.
 
 ### Minimal config files
 
 Avoid excessive build configuration files with all config defined in `webpack.mix.js`.<br>
 The `package.json` contains browser targets and linting configs.
-
-### Sensible configuration complexity
-
-Because of the complexity of raw Webpack configs, they can take an extended time to understand. [Laravel Mix](https://laravel.com/docs/5.8/mix#introduction) provides a simple layer upon Webpack to help make many build adjustments quick and painless.
 
 ## Build actions
 
@@ -100,15 +106,48 @@ npx degit ben-rogerson/agency-webpack-mix-config
 npm install
 ```
 
-### 3. Add your project files
+### 3. Update the proxy domain and start adding project files
 
-In this example I'll merge in the files from the [Craft CMS starter](https://github.com/craftcms/craft) on Github:<br>
+This config allows for either static or dynamic templates.
+
+#### a) Start a static site
+
+This option converts the Twig templates in `src/templates` into static Html files and hashes assets during a production build.
+
+Add the new site to proxy using Valet/Homestead/etc and update the `devProxyDomain` in `webpack.mix.js`, eg:
+
+```javascript
+const config = {
+    devProxyDomain: "http://my-static-site.test",
+}
+```
+
+Then run `npm run dev` to start your development server.
+
+#### b) Start a dynamic site
+
+This option lets you use a CMS and during production it compresses and hashes assets and creates a manifest file.
+
+You could add any CMS but in this example I'll copy in the files from the [Craft CMS starter](https://github.com/craftcms/craft):<br>
 
 ```bash
 npx degit --force craftcms/craft
-# or
-# npx degit --force https://bitbucket.org/user/repo
 ```
+
+Craft requires a `templates` directory in the base folder for its twig templates so I'll update the following config values in `webpack.mix.js`:
+
+```javascript
+const config = {
+    devProxyDomain: "http://my-craft-site.test",
+    devWatchTemplatePaths: ["templates"],
+    purgeCssGrabFolders: ["src", "templates"],
+    buildStaticSite: false,
+}
+```
+
+You'd then add the new site to proxy using Valet/Homestead/etc and complete the Craft install.
+
+Then run `npm run dev` to start your development server.
 
 ## Tasks
 
