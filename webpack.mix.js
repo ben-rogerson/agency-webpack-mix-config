@@ -9,7 +9,7 @@
  *
  * 🎚️ Settings
  * 🏠 Templates
- * 🎭 File hashing
+ * 🎭 Hashing
  * 🎨 Styles
  * 🎨 Styles: CriticalCSS
  * 🎨 Styles: PurgeCSS
@@ -20,8 +20,8 @@
  * 📑 Scripts: Polyfills
  * 📑 Scripts: Auto import libraries
  * 📑 Scripts: Linting
- * 🎆 Icons
  * 🏞 Images
+ * 🎆 Icons
  * 🗂️ Static
  * 🛁 Cleaning
  * 🚧 Webpack-dev-server
@@ -32,8 +32,8 @@ const config = {
     // Valet/Homestead/etc domain to proxy
     devProxyDomain: "http://mix.test",
 
-    // Additional template paths to observe for changes (non src templates)
-    devWatchTemplatePaths: ["src/templates"],
+    // Paths to observe for changes
+    devWatchPaths: ["src/templates"],
 
     // Folders where purgeCss can look for used selectors
     purgeCssGrabFolders: ["src"],
@@ -124,7 +124,7 @@ if (buildSrcTemplates) {
 }
 
 /**
- * 🎭 File hashing
+ * 🎭 Hashing
  * Mix has querystring hashing by default, eg: main.css?id=abcd1234
  * This script converts it to filename hashing, eg: main.abcd1234.css
  * https://github.com/JeffreyWay/laravel-mix/issues/1022#issuecomment-379168021
@@ -228,8 +228,6 @@ if (!mix.inProduction()) {
  * https://laravel-mix.com/docs/4.0/options
  */
 mix.options({
-    // Extract Vue styles to a separate file
-    extractVueStyles: false,
     // Disable processing css urls for speed
     // https://laravel-mix.com/docs/4.0/css-preprocessors#css-url-rewriting
     processCssUrls: false,
@@ -240,11 +238,7 @@ mix.options({
  * Script files are transpiled to vanilla JavaScript
  * https://laravel-mix.com/docs/4.0/mixjs
  */
-const scriptFiles = getFilesIn(path.resolve(__dirname, source.scripts), [
-    "js",
-    "mjs",
-    "vue",
-])
+const scriptFiles = getFilesIn(path.resolve(__dirname, source.scripts), [ "js", "mjs"])
 scriptFiles.forEach(scriptFile => {
     mix.js(scriptFile, config.publicBuildFolder)
 })
@@ -283,17 +277,6 @@ if (!mix.inProduction()) {
 }
 
 /**
- * 🎆 Icons
- * Individual SVG icons are optimised then combined into a single cacheable SVG
- * https://github.com/kisenka/svg-sprite-loader#configuration
- */
-require("laravel-mix-svg-sprite")
-mix.svgSprite(source.icons, path.join(config.publicBuildFolder, "sprite.svg"), {
-    symbolId: filePath => `icon-${path.parse(filePath).name}`,
-    extract: true,
-})
-
-/**
  * 🏞 Images
  * Images are optimized and copied to the build directory
  * https://github.com/Klathmon/imagemin-webpack-plugin#api
@@ -324,6 +307,17 @@ mix.imagemin(
 )
 
 /**
+ * 🎆 Icons
+ * Individual SVG icons are optimised then combined into a single cacheable SVG
+ * https://github.com/kisenka/svg-sprite-loader#configuration
+ */
+require("laravel-mix-svg-sprite")
+mix.svgSprite(source.icons, path.join(config.publicBuildFolder, "sprite.svg"), {
+    symbolId: filePath => `icon-${path.parse(filePath).name}`,
+    extract: true,
+})
+
+/**
  * 🗂️ Static
  * Additional folders with no transform requirements are copied to your build folders
  */
@@ -347,18 +341,18 @@ mix.webpackConfig({
 
 /**
  * 🚧 Webpack-dev-server
+ * https://webpack.js.org/configuration/dev-server/
  */
 mix.webpackConfig({
     devServer: {
         clientLogLevel: "none", // Hide console feedback so eslint can take over
         open: true,
+        overlay: true,
         public: "localhost:8080",
         host: "0.0.0.0", // Allows access from network
         https: config.devProxyDomain.includes("https://"),
-        hot: true,
-        overlay: true,
-        contentBase: config.devWatchTemplatePaths.length ? config.devWatchTemplatePaths : undefined,
-        watchContentBase: config.devWatchTemplatePaths.length > 0,
+        contentBase: config.devWatchPaths.length ? config.devWatchPaths : undefined,
+        watchContentBase: config.devWatchPaths.length > 0,
         watchOptions: {
             aggregateTimeout: 200,
             poll: 200, // Lower for faster reloads (more cpu intensive)
