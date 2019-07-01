@@ -95,15 +95,15 @@ Additional folders with no transform requirements are copied to your build folde
 ### 1. Copy this repo into a new project folder:
 
 ```bash
-npx degit ben-rogerson/agency-webpack-mix-config
+npx degit ben-rogerson/agency-webpack-mix-config new-project
 ```
 
-&hellip;or use Github's new tool to [create a new repository](https://github.com/ben-rogerson/agency-webpack-mix-config/generate).
+&hellip;or use Github's new tool to [create a new repository](https://github.com/ben-rogerson/agency-webpack-mix-config/generate) then clone the project down.
 
 ### 2. Install the dependencies:
 
 ```bash
-npm install
+cd new-project && npm install
 ```
 
 ### 3. Update the proxy domain and start adding project files
