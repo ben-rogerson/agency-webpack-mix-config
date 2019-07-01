@@ -14,6 +14,7 @@
  * 🎨 Styles: CriticalCSS
  * 🎨 Styles: PurgeCSS
  * 🎨 Styles: PostCSS
+ * 🎨 Styles: Vendor
  * 🎨 Styles: Linting
  * 🎨 Styles: Other
  * 📑 Scripts
@@ -267,6 +268,16 @@ mix.polyfill({
 mix.autoload({
     jquery: ["$", "jQuery", "window.jQuery"],
 })
+
+/**
+ * 📑 Scripts: Vendor
+ * Separate the JavaScript code imported from node_modules
+ * https://laravel-mix.com/docs/4.0/extract
+ * Without mix.extract you'll see an annoying js error after
+ * launching the dev server - this should be fixed in webpack 5
+ */
+mix.extract() // Empty params = separate all node_modules
+// mix.extract(['jquery']) // Specify packages to add to the vendor file
 
 /**
  * 📑 Scripts: Linting
