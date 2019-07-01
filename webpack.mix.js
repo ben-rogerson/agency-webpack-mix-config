@@ -77,7 +77,7 @@ const source = {
 mix.setPublicPath(config.publicFolder)
 
 // 🎚️ Source maps
-mix.sourceMaps()
+!mix.inProduction() && mix.sourceMaps()
 
 // 🎚️ Notifications
 // https://laravel-mix.com/docs/4.0/os-notifications
@@ -276,7 +276,7 @@ mix.autoload({
  * Without mix.extract you'll see an annoying js error after
  * launching the dev server - this should be fixed in webpack 5
  */
-mix.extract() // Empty params = separate all node_modules
+mix.extract([]) // Empty params = separate all node_modules
 // mix.extract(['jquery']) // Specify packages to add to the vendor file
 
 /**
