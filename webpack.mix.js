@@ -133,7 +133,10 @@ if (mix.inProduction() && !config.buildStaticSite) {
  * https://github.com/sass/node-sass#options
  */
 // Get a list of style files within the base styles folder
-const styleFiles = getFilesIn(path.resolve(__dirname, source.styles), [ "scss", "sass" ])
+const styleFiles = getFilesIn(path.resolve(__dirname, source.styles), [
+    "scss",
+    "sass",
+])
 // Data to send to style files
 const styleData = `$isDev: ${!mix.inProduction()};`
 // Create an asset for every style file
@@ -223,7 +226,10 @@ mix.options({
  * Script files are transpiled to vanilla JavaScript
  * https://laravel-mix.com/docs/4.0/mixjs
  */
-const scriptFiles = getFilesIn(path.resolve(__dirname, source.scripts), [ "js", "mjs"])
+const scriptFiles = getFilesIn(path.resolve(__dirname, source.scripts), [
+    "js",
+    "mjs",
+])
 scriptFiles.forEach(scriptFile => {
     mix.js(scriptFile, config.publicBuildFolder)
 })
@@ -346,7 +352,9 @@ mix.webpackConfig({
         public: "localhost:8080",
         host: "0.0.0.0", // Allows access from network
         https: config.devProxyDomain.includes("https://"),
-        contentBase: config.devWatchPaths.length ? config.devWatchPaths : undefined,
+        contentBase: config.devWatchPaths.length
+            ? config.devWatchPaths
+            : undefined,
         watchContentBase: config.devWatchPaths.length > 0,
         watchOptions: {
             aggregateTimeout: 200,
