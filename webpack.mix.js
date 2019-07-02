@@ -88,49 +88,33 @@ mix.disableNotifications()
 mix.webpackConfig({ resolve: { alias: source } })
 
 /**
- * 🏠 Templates
- * Processed to create static html files
- * https://github.com/jantimon/html-webpack-plugin
+ * 🏠 Templates (for static sites)
+ * Convert Twig files to Html
+ * https://github.com/ben-rogerson/laravel-mix-twig-to-html
  */
-// Use src/templates if the folder exists
-const buildSrcTemplates = config.buildStaticSite && source.templates && getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true).length > 0
-if (buildSrcTemplates) {
-    const HtmlWebpackPlugin = require("html-webpack-plugin")
-    const templateFiles = getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true)
-    const templatePages = templateFiles.map(file => {
-        const isSubPath = source.templates !== path.dirname(file)
-        const prefixPath = isSubPath ? path.dirname(file).split(path.sep).pop() : ''
-        const newFileName = `${path.basename(file, path.extname(file))}.html`
-        return (
-            new HtmlWebpackPlugin({
-                template: file,
-                filename: path.join(prefixPath, newFileName),
-                hash: mix.inProduction(),
-            })
-        )
-    })
-    mix.webpackConfig({
-        module: {
-            rules: [{
-                test: /\.twig$/,
-                use: ['raw-loader', {
-                    loader: 'twig-html-loader',
-                    options: { autoescape: true },
-                }]
-            }]
-        },
-        output: { publicPath: '' }, // Fix path issues
-        plugins: templatePages
-    })
-}
+const templateFiles = getFilesIn(
+    path.resolve(__dirname, source.templates),
+    ["twig"],
+    true
+)
+require("laravel-mix-twig-to-html")
+mix.twigToHtml({
+    files: templateFiles,
+    fileBase: source.templates,
+    enabled:
+        config.buildStaticSite &&
+        source.templates &&
+        getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true)
+            .length > 0,
+})
 
 /**
- * 🎭 Hashing
+ * 🎭 Hashing (for non-static sites)
  * Mix has querystring hashing by default, eg: main.css?id=abcd1234
  * This script converts it to filename hashing, eg: main.abcd1234.css
  * https://github.com/JeffreyWay/laravel-mix/issues/1022#issuecomment-379168021
  */
-if (mix.inProduction() && !buildSrcTemplates) {
+if (mix.inProduction() && !config.buildStaticSite) {
     // Allow versioning in production
     mix.version()
     // Get the manifest filepath for filehash conversion
