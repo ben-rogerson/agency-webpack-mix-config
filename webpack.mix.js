@@ -32,28 +32,21 @@
 const config = {
     // Valet/Homestead/etc domain to proxy
     devProxyDomain: "http://mix.test",
-
     // Paths to observe for changes
     devWatchPaths: ["src/templates"],
-
     // Folders where purgeCss can look for used selectors
     purgeCssGrabFolders: ["src"],
-
     // Build a static site from the src/template files
     buildStaticSite: true,
-
     // Urls for CriticalCss to look for "above the fold" Css
     criticalCssUrls: [
         { urlPath: "/", label: "index" },
         // { urlPath: "/about", label: "about" },
     ],
-
     // Paths to clean before each start (publicFolder base)
     publicToCleanBeforeStart: ["dist/**/*", "*.+(js|map|html|json)"],
-
     // Folder served to users
     publicFolder: "web",
-
     // Foldername for built src assets (publicFolder base)
     publicBuildFolder: "dist",
 }
@@ -73,19 +66,11 @@ const source = {
     templates: path.resolve("src/templates"),
 }
 
-// 🎚️ Base public path
+// 🎚️ Misc
 mix.setPublicPath(config.publicFolder)
-
-// 🎚️ Source maps
-!mix.inProduction() && mix.sourceMaps()
-
-// 🎚️ Notifications
-// https://laravel-mix.com/docs/4.0/os-notifications
 mix.disableNotifications()
-
-// 🎚️ Aliases
-// Add aliases to your project folders
 mix.webpackConfig({ resolve: { alias: source } })
+!mix.inProduction() && mix.sourceMaps()
 
 /**
  * 🏠 Templates (for static sites)
