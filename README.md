@@ -1,4 +1,4 @@
-# Agency Webpack-Mix Config
+# Agency Webpack Mix Config
 
 <p><img width="80%" src="https://i.imgur.com/r5iZONo.png" alt="Icon"></p>
 
@@ -108,21 +108,21 @@ cd new-project && npm install
 
 ### 3. Update the proxy domain and start adding project files
 
-This config allows for either static or dynamic templates.
+This config allows for either static or dynamic template sites.
+Dynamic template sites could be ones running Craft, Wordpress, or Laravel.
 
 #### a) Start a static site
 
 This option converts the Twig templates in `src/templates` into static Html files and hashes assets during a production build.
 
-Add the new site to proxy using Valet/Homestead/etc and update the `devProxyDomain` in `webpack.mix.js`, eg:
+Update the `devProxyDomain` in `webpack.mix.js`, eg:
 
 ```javascript
 const config = {
     devProxyDomain: "http://my-static-site.test",
 }
 ```
-
-Then run `npm run dev` to start your development server.
+Then add the `devProxyDomain` to Valet/Homestead/etc and run `npm run dev` to start your development server.
 
 #### b) Start a dynamic site
 
@@ -134,18 +134,22 @@ You could add any CMS but in this example I'll copy in the files from the [Craft
 npx degit --force craftcms/craft
 ```
 
-Craft requires a `templates` directory in the base folder for its twig templates so I'll update the following config values in `webpack.mix.js`:
+Craft CMS requires a `templates` directory in the base folder for their twig templates so I'll add these config values in `webpack.mix.js`:
 
 ```javascript
 const config = {
+    // Valet/Homestead/etc domain to proxy
     devProxyDomain: "http://my-craft-site.test",
-    devWatchTemplatePaths: ["templates"],
+    // Paths to observe for changes
+    devWatchPaths: ["templates"],
+    // Folders where purgeCss can look for used selectors
     purgeCssGrabFolders: ["src", "templates"],
+    // Build a static site from the src/template files
     buildStaticSite: false,
 }
 ```
 
-You'd then add the new site to proxy using Valet/Homestead/etc and complete the Craft install.
+Then create a new project database, add the `devProxyDomain` to Valet/Homestead and finish the Craft install with `composer install && ./craft setup`.
 
 Then run `npm run dev` to start your development server.
 
