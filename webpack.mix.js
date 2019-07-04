@@ -86,11 +86,11 @@ require("laravel-mix-twig-to-html")
 mix.twigToHtml({
     files: templateFiles,
     fileBase: source.templates,
-    enabled:
-        config.buildStaticSite &&
-        source.templates &&
-        getFilesIn(path.resolve(__dirname, source.templates), ["twig"], true)
-            .length > 0,
+    enabled: config.buildStaticSite && source.templates && templateFiles.length > 0,
+    twigOptions: {
+        data: require(path.join(source.templates, '_data', 'data.js')),
+    },
+    publicFolder: path.join(__dirname, config.publicFolder),
 })
 
 /**

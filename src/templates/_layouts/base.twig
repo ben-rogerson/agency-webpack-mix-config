@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ title|default('No title') }}</title>
 
-    <!-- Styles will be automatically added here -->
+    <!-- Display the critical css files in production -->
+    {{ criticalStyleFile(criticalCss|default()) }}
+
+    <!-- Your styles will be injected here -->
 </head>
 
-<!-- The data attribute for the async icon sprite -->
-<body data-icons="/dist/sprite.svg">
+<!-- Data attribute for the async icon sprite -->
+<body data-icons="dist/sprite.svg">
 
     {% block main %}{% endblock %}
 
-    <!-- Scripts will be automatically added here -->
+    <!-- Your scripts will be injected here -->
 </body>
 
 </html>
