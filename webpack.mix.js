@@ -167,7 +167,6 @@ if (config.purgeCssGrabFolders.length) {
     require("laravel-mix-purgecss")
     mix.purgeCss({
         enabled: mix.inProduction(),
-        globs: [path.join(__dirname, config.publicFolder, "*.html")],
         folders: config.purgeCssGrabFolders, // Folders scanned for selectors
         extensions: ["php", "twig", "html", "js", "mjs", "vue"],
     })
