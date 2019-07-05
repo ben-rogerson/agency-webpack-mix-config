@@ -122,7 +122,7 @@ const config = {
     devProxyDomain: "http://my-static-site.test",
 }
 ```
-Then add the `devProxyDomain` to Valet/Homestead/etc and run `npm run dev` to start your development server.
+Then add the `devProxyDomain` to Valet/Homestead/Vagrant and run `npm run dev` to start your development server.
 
 #### b) Start a dynamic site
 
@@ -138,7 +138,7 @@ Craft CMS requires a `templates` directory in the base folder for their twig tem
 
 ```javascript
 const config = {
-    // Valet/Homestead/etc domain to proxy
+    // Dev domain to proxy
     devProxyDomain: "http://my-craft-site.test",
     // Paths to observe for changes
     devWatchPaths: ["templates"],
@@ -149,7 +149,7 @@ const config = {
 }
 ```
 
-Then create a new project database, add the `devProxyDomain` to Valet/Homestead and finish the Craft install with `composer install && ./craft setup`.
+Then create a new project database, add the `devProxyDomain` to Valet/Homestead/Vagrant and finish the Craft install with `composer install && ./craft setup`.
 
 Then run `npm run dev` to start your development server.
 

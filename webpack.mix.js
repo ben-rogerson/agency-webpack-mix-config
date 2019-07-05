@@ -14,6 +14,7 @@
  * 🎨 Styles: CriticalCSS
  * 🎨 Styles: PurgeCSS
  * 🎨 Styles: PostCSS
+ * 🎨 Styles: Polyfills
  * 🎨 Styles: Vendor
  * 🎨 Styles: Linting
  * 🎨 Styles: Other
@@ -30,7 +31,7 @@
 
 // 🎚️ Base config
 const config = {
-    // Valet/Homestead/etc domain to proxy
+    // Dev domain to proxy
     devProxyDomain: "http://mix.test",
     // Paths to observe for changes
     devWatchPaths: ["src/templates"],
@@ -174,18 +175,23 @@ if (config.purgeCssGrabFolders.length) {
 
 /**
  * 🎨 Styles: PostCSS
+ * Extend Css with plugins
  * https://laravel-mix.com/docs/4.0/css-preprocessors#postcss-plugins
  */
-mix.options({
-    postCss: [
-        // Postcss preset env: Use pre-implemented css features
-        // See https://cssdb.org/ for supported features
-        // Note: Depending on support you may need to adjust
-        // your development browserslist in package.json.
-        // https://github.com/csstools/postcss-preset-env#readme
-        require("postcss-preset-env")({ stage: 2 }),
-    ],
-})
+// mix.options({
+//     postCss: [
+//         require("add-your-postcss-plugin"),
+//         require('tailwindcss')('./tailwind.config.js'),
+//     ],
+// })
+
+/**
+ * 🎨 Styles: Polyfills
+ * Postcss preset env lets you use pre-implemented css features
+ * See https://cssdb.org/ for supported features
+ * https://github.com/csstools/postcss-preset-env#readme
+ */
+mix.options({ postCss: [ require("postcss-preset-env")({ stage: 2 }) ] })
 
 /**
  * 🎨 Styles: Linting
