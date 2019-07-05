@@ -91,7 +91,6 @@ mix.twigToHtml({
     twigOptions: {
         data: require(path.join(source.templates, '_data', 'data.js')),
     },
-    publicFolder: path.join(__dirname, config.publicFolder),
 })
 
 /**

@@ -33,7 +33,7 @@
     "laravel-mix-purgecss": "^4.1.0",
     "laravel-mix-stylelint": "^0.2.0",
     "laravel-mix-svg-sprite": "^1.0.0",
-    "laravel-mix-twig-to-html": "^1.1.0",
+    "laravel-mix-twig-to-html": "^1.1.1",
     "node-sass": "^4.12.0",
     "postcss-preset-env": "^6.6.0",
     "raw-loader": "^3.0.0",
@@ -47,16 +47,16 @@
     "webpack": "^4.35.0"
   },
   "browserslist": [
-      "> 1%",
-      "last 2 versions",
-      "Firefox ESR",
-      "not ie 10",
-      "not op_mini all",
-      "not op_mob 12.1",
-      "not baidu 7.12",
-      "not ie_mob 10",
-      "not ie_mob 11",
-      "not and_uc 11.8"
+    "> 1%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not ie 10",
+    "not op_mini all",
+    "not op_mob 12.1",
+    "not baidu 7.12",
+    "not ie_mob 10",
+    "not ie_mob 11",
+    "not and_uc 11.8"
   ],
   "eslintConfig": {
     "parser": "babel-eslint",
