@@ -10,7 +10,7 @@ if (document.querySelector("#app")) {
         data: {},
         methods: {},
         mounted() {
-            console.log("👍 Dynamically imported: vue/app.js")
+            console.log("👍 Imported: vue/app.js")
         },
     })
 }
