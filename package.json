@@ -46,8 +46,7 @@
     "vue-template-compiler": "^2.6.10",
     "webpack": "^4.35.0"
   },
-  "browserslist": {
-    "production": [
+  "browserslist": [
       "> 1%",
       "last 2 versions",
       "Firefox ESR",
@@ -58,12 +57,7 @@
       "not ie_mob 10",
       "not ie_mob 11",
       "not and_uc 11.8"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version"
-    ]
-  },
+  ],
   "eslintConfig": {
     "parser": "babel-eslint",
     "plugins": [
