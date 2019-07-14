@@ -51,8 +51,7 @@ Script files are transpiled to vanilla JavaScript and the necessary polyfills in
 <p><img width="80%" src="https://i.imgur.com/pkRrCcB.png" alt="Script src folder"></p>
 
 -   Script transpiling with [Babel](https://babeljs.io) with minifying and sourcemaps
--   Automatic polyfills are provided by core-js 3
-    Uses dart-sass which has a replica API to Node-Sass
+-   Automatic browser polyfills are provided by Core-Js 3
 -   [ESLint](https://eslint.org/) is provided for error linting
 
 <br>
