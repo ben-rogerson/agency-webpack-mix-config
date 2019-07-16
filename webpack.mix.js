@@ -348,7 +348,7 @@ mix.webpackConfig({
         watchOptions: {
             aggregateTimeout: 200,
             poll: 200, // Lower for faster reloads (more cpu intensive)
-            ignored: /node_modules/,
+            ignored: ["storage", "node_modules", "vendor"],
         },
         disableHostCheck: true, // Fixes "Invalid Host header error" on assets
         headers: {
