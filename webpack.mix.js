@@ -16,7 +16,6 @@
  * 🎨 Styles: PostCSS
  * 🎨 Styles: Polyfills
  * 🎨 Styles: Vendor
- * 🎨 Styles: Linting
  * 🎨 Styles: Other
  * 📑 Scripts
  * 📑 Scripts: Polyfills
@@ -87,9 +86,10 @@ require("laravel-mix-twig-to-html")
 mix.twigToHtml({
     files: templateFiles,
     fileBase: source.templates,
-    enabled: config.buildStaticSite && source.templates && templateFiles.length > 0,
+    enabled:
+        config.buildStaticSite && source.templates && templateFiles.length > 0,
     twigOptions: {
-        data: require(path.join(source.templates, '_data', 'data.js')),
+        data: require(path.join(source.templates, "_data", "data.js")),
     },
 })
 
@@ -190,15 +190,7 @@ if (config.purgeCssGrabFolders.length) {
  * See https://cssdb.org/ for supported features
  * https://github.com/csstools/postcss-preset-env#readme
  */
-mix.options({ postCss: [ require("postcss-preset-env")({ stage: 2 }) ] })
-
-/**
- * 🎨 Styles: Linting
- */
-if (!mix.inProduction()) {
-    require("laravel-mix-stylelint")
-    mix.stylelint({ configFile: null, context: null })
-}
+mix.options({ postCss: [require("postcss-preset-env")({ stage: 2 })] })
 
 /**
  * 🎨 Styles: Other

@@ -40,7 +40,6 @@ Style files are compiled to CSS and PostCss plugins provide additional transform
 -   [Sass](http://sass-lang.com) auto compiling, prefixing, minifying and sourcemaps
 -   [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) come preconfigured to improve your page speed
 -   [Autoprefixer](https://github.com/postcss/autoprefixer) and [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) provide support for older browsers
--   [StyleLint](https://github.com/stylelint/stylelint) provides error linting for oopsies
 
 <br>
 
@@ -168,7 +167,4 @@ npm run build
 
 npm run fix-scripts
 # Fixes your javascript with eslint
-
-npm run fix-styles
-# Fixes your styles with stylelint
 ```
