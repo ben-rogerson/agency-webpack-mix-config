@@ -149,6 +149,14 @@ const config = {
 
 Then create a new project database, add the `devProxyDomain` to Valet/Homestead/Vagrant and finish the Craft install with `composer install && ./craft setup`.
 
+For HMR and livereloading files in your 'templates' folder, you'll  need to load these JavaScript files:
+
+```js
+<script src="https://localhost:8080/dist/manifest.js"></script>
+<script src="https://localhost:8080/dist/vendor.js"></script>
+<script src="https://localhost:8080/dist/main.js"></script>
+```
+
 Then run `npm run dev` to start your development server.
 
 ## Tasks
