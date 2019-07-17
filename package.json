@@ -1,7 +1,7 @@
 {
     "name": "agency-webpack-mix-config",
     "scripts": {
-        "dev": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "dev": "NODE_ENV=development webpack-dev-server --https --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
         "start": "NODE_ENV=development webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "build": "NODE_ENV=production webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "fix-scripts": "eslint --fix 'src/scripts/**/*.{vue,js,jsx,mjs}'"
