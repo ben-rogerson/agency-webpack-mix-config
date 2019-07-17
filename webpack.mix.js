@@ -31,7 +31,7 @@
 // 🎚️ Base config
 const config = {
     // Dev domain to proxy
-    devProxyDomain: "http://mix.test",
+    devProxyDomain: process.env.DEFAULT_SITE_URL || "http://mix.test",
     // Paths to observe for changes
     devWatchPaths: ["src/templates"],
     // Folders where purgeCss can look for used selectors
