@@ -347,10 +347,11 @@ mix.webpackConfig({
             "Access-Control-Allow-Origin": "*",
         },
         proxy: {
-            context: () => true,
-            target: config.devProxyDomain,
-            changeOrigin: true,
-            secure: false,
+            "**": {
+                target: config.devProxyDomain,
+                changeOrigin: true,
+                secure: false,
+            },
         },
     },
 })
