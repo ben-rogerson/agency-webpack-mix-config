@@ -149,7 +149,7 @@ if (criticalDomain) {
             dest: path.join(
                 config.publicFolder,
                 config.publicBuildFolder,
-                `critical-${page.label}.css`
+                `${page.label}-critical.css`
             ),
         })),
         options: {
