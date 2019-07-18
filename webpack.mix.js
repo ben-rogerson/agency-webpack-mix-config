@@ -138,7 +138,7 @@ styleFiles.forEach(styleFile => {
  * https://github.com/addyosmani/critical#options
  */
 // (Optional) Set the baseurl in your .env, eg: `BASE_URL=http://google.com`
-const criticalDomain = process.env.BASE_URL || config.devProxyDomain
+const criticalDomain = config.devProxyDomain
 if (criticalDomain) {
     require("laravel-mix-critical")
     const url = require("url")
