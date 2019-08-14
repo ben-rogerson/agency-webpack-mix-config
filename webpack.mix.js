@@ -49,6 +49,8 @@ const config = {
     publicFolder: "web",
     // Foldername for built src assets (publicFolder base)
     publicBuildFolder: "dist",
+    // The port used by webpack-dev-server
+	webpackDevServerPort: 8080,
 }
 
 // 🎚️ Imports
@@ -330,7 +332,8 @@ mix.webpackConfig({
         clientLogLevel: "none", // Hide console feedback so eslint can take over
         open: true,
         overlay: true,
-        public: "localhost:8080",
+        port: config.webpackDevServerPort,
+		public: `localhost:${config.webpackDevServerPort}`,
         host: "0.0.0.0", // Allows access from network
         https: config.devProxyDomain.includes("https://"),
         contentBase: config.devWatchPaths.length
