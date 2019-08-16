@@ -1,5 +1,5 @@
 import "./modules/svgIconSprite"
-import "./vue/app"
+import "./vue/main"
 
 /**
  * Accept hot reloading from dev server

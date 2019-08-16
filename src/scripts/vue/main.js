@@ -1,4 +1,5 @@
 import Vue from "vue"
+import App from './app'
 
 Vue.config.productionTip = false;
 
@@ -6,11 +7,6 @@ if (document.querySelector("#app")) {
     new Vue({
         el: "#app",
         delimiters: ["${", "}"],
-        components: {},
-        data: {},
-        methods: {},
-        mounted() {
-            console.log("👍 Imported: vue/app.js")
-        },
+        render: h => h(App)
     })
 }
