@@ -72,7 +72,7 @@ Individual SVG icons are optimised then combined into a single cacheable SVG.
 <p><img width="80%" src="https://i.imgur.com/YHQ82r9.png" alt="Icons src folder"></p>
 
 -   An async script adds the svg sprite to your page
--   You can display an icon with svg use:<br/>
+-   You can display an icon like this:<br/>
 
 ```html
 <svg><use xlink:href="icon-code" /></svg>
@@ -149,9 +149,9 @@ const config = {
 
 Then create a new project database, add the `devProxyDomain` to Valet/Homestead/Vagrant and finish the Craft install with `composer install && ./craft setup`.
 
-For HMR and livereloading files in your 'templates' folder, you'll  need to load these JavaScript files:
+For HMR and live reloading files in your 'templates' folder, you'll need to load these JavaScript files:
 
-```js
+```javascript
 <script src="https://localhost:8080/dist/manifest.js"></script>
 <script src="https://localhost:8080/dist/vendor.js"></script>
 <script src="https://localhost:8080/dist/main.js"></script>
@@ -179,5 +179,5 @@ npm run build
 # Run the production build
 
 npm run fix-scripts
-# Fixes your javascript with eslint
+# Fix your javascript with eslint
 ```
