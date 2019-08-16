@@ -77,17 +77,11 @@ mix.webpackConfig({ resolve: { alias: source } })
  * Convert Twig files to Html
  * https://github.com/ben-rogerson/laravel-mix-twig-to-html
  */
-const templateFiles = getFilesIn(
-    path.resolve(__dirname, source.templates),
-    ["twig"],
-    true
-)
 require("laravel-mix-twig-to-html")
 mix.twigToHtml({
-    files: templateFiles,
+    files: path.resolve(__dirname, source.templates, '**/*.{twig,html}'),
     fileBase: source.templates,
-    enabled:
-        config.buildStaticSite && source.templates && templateFiles.length > 0,
+    enabled: config.buildStaticSite && source.templates,
     twigOptions: {
         data: require(path.join(source.templates, "_data", "data.js")),
     },

@@ -32,7 +32,7 @@
         "laravel-mix-polyfill": "^1.1.0",
         "laravel-mix-purgecss": "^4.1.0",
         "laravel-mix-svg-sprite": "^1.0.0",
-        "laravel-mix-twig-to-html": "^1.1.1",
+        "laravel-mix-twig-to-html": "^1.2.0",
         "node-sass": "^4.12.0",
         "postcss-preset-env": "^6.7.0",
         "raw-loader": "^3.0.0",
