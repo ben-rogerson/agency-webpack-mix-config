@@ -159,6 +159,11 @@ For HMR and livereloading files in your 'templates' folder, you'll  need to load
 
 Then run `npm run dev` to start your development server.
 
+You can now cleanup the packages used for static rendering with this command:
+```bash
+npm rm html-webpack-plugin twig-html-loader laravel-mix-twig-to-html
+```
+
 ## Tasks
 
 The following tasks are available:
