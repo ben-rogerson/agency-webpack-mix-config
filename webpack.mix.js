@@ -32,8 +32,10 @@
 const config = {
     // Dev domain to proxy
     devProxyDomain: process.env.DEFAULT_SITE_URL || "http://site.test",
-    // Paths to observe for changes
+    // Paths to observe for changes then trigger a full page reload
     devWatchPaths: ["src/templates"],
+    // Port to use with webpack-dev-server
+    devServerPort: 8080,
     // Folders where purgeCss can look for used selectors
     purgeCssGrabFolders: ["src"],
     // Build a static site from the src/template files
@@ -49,8 +51,6 @@ const config = {
     publicFolder: "web",
     // Foldername for built src assets (publicFolder base)
     publicBuildFolder: "dist",
-    // The port used by webpack-dev-server
-	webpackDevServerPort: 8080,
 }
 
 // 🎚️ Imports
@@ -326,8 +326,8 @@ mix.webpackConfig({
         clientLogLevel: "none", // Hide console feedback so eslint can take over
         open: true,
         overlay: true,
-        port: config.webpackDevServerPort,
-		public: `localhost:${config.webpackDevServerPort}`,
+        port: config.devServerPort,
+        public: `localhost:${config.devServerPort}`,
         host: "0.0.0.0", // Allows access from network
         https: config.devProxyDomain.includes("https://"),
         contentBase: config.devWatchPaths.length
