@@ -8,14 +8,14 @@
         "test": "echo \"No test script specified\""
     },
     "dependencies": {
-        "core-js": "^3.1.4",
+        "core-js": "^3.2.1",
         "vue": "^2.6.10"
     },
     "devDependencies": {
         "babel-eslint": "^10.0.2",
         "clean-webpack-plugin": "^3.0.0",
-        "copy-webpack-plugin": "^5.0.3",
-        "eslint": "^6.0.1",
+        "copy-webpack-plugin": "^5.0.4",
+        "eslint": "^6.1.0",
         "eslint-loader": "^2.2.1",
         "eslint-plugin-compat": "^3.3.0",
         "eslint-plugin-vue": "^5.2.3",
@@ -28,20 +28,20 @@
         "laravel-mix-critical": "^0.1.2",
         "laravel-mix-eslint": "^0.1.3",
         "laravel-mix-imagemin": "1.0.3",
-        "laravel-mix-make-file-hash": "^1.1.1",
+        "laravel-mix-make-file-hash": "^1.2.0",
         "laravel-mix-polyfill": "^1.1.0",
         "laravel-mix-purgecss": "^4.1.0",
         "laravel-mix-svg-sprite": "^1.0.0",
         "laravel-mix-twig-to-html": "^1.2.0",
         "node-sass": "^4.12.0",
         "postcss-preset-env": "^6.7.0",
-        "raw-loader": "^3.0.0",
-        "sass": "^1.22.5",
-        "sass-loader": "^7.1.0",
+        "raw-loader": "^3.1.0",
+        "sass": "^1.22.9",
+        "sass-loader": "7.*",
         "twig-html-loader": "^0.1.7",
         "vue-eslint-parser": "^6.0.4",
         "vue-template-compiler": "^2.6.10",
-        "webpack": "^4.35.3"
+        "webpack": "^4.39.2"
     },
     "browserslist": [
         "> 1%",
