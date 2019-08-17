@@ -109,7 +109,7 @@ cd new-project && npm install
 This config allows for either static or dynamic template sites.
 Dynamic template sites could be ones running Craft, Wordpress, or Laravel.
 
-#### a) Start a static site
+#### a) Create a static site
 
 This option converts the Twig templates in `src/templates` into static Html files and hashes assets during a production build.
 
@@ -122,7 +122,7 @@ const config = {
 ```
 Then add the `devProxyDomain` to Valet/Homestead/Vagrant and run `npm run dev` to start your development server.
 
-#### b) Start a dynamic site
+#### b) Create a dynamic site
 
 This option lets you use a CMS and during production it compresses and hashes assets and creates a manifest file.
 
@@ -151,18 +151,18 @@ Then create a new project database, add the `devProxyDomain` to Valet/Homestead/
 
 For HMR and live reloading files in your 'templates' folder, you'll need to load these JavaScript files:
 
-```javascript
+```html
 <script src="https://localhost:8080/dist/manifest.js"></script>
 <script src="https://localhost:8080/dist/vendor.js"></script>
 <script src="https://localhost:8080/dist/main.js"></script>
 ```
 
-Then run `npm run dev` to start your development server.
-
 You can now cleanup the packages used for static rendering with this command:
 ```bash
 npm rm html-webpack-plugin twig-html-loader laravel-mix-twig-to-html
 ```
+
+Then run `npm run dev` to start your development server.
 
 ## Tasks
 
