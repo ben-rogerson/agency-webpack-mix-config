@@ -53,7 +53,7 @@ const config = {
 // 🎚️ Imports
 const mix = require("laravel-mix")
 const path = require("path")
-const getFilesIn = require("get-files-in")
+const globby = require('globby');
 
 // 🎚️ Source folders
 const source = {
@@ -111,10 +111,7 @@ if (mix.inProduction() && !config.buildStaticSite) {
  * https://github.com/sass/node-sass#options
  */
 // Get a list of style files within the base styles folder
-const styleFiles = getFilesIn(path.resolve(__dirname, source.styles), [
-    "scss",
-    "sass",
-])
+const styleFiles = globby.sync(`${source.styles}/*.{scss,sass}`)
 // Data to send to style files
 const styleData = `$isDev: ${!mix.inProduction()};`
 // Create an asset for every style file
@@ -200,10 +197,7 @@ mix.options({
  * Script files are transpiled to vanilla JavaScript
  * https://laravel-mix.com/docs/4.0/mixjs
  */
-const scriptFiles = getFilesIn(path.resolve(__dirname, source.scripts), [
-    "js",
-    "mjs",
-])
+const scriptFiles = globby.sync(`${source.scripts}/*.{js,mjs}`)
 scriptFiles.forEach(scriptFile => {
     mix.js(scriptFile, config.publicBuildFolder)
 })
