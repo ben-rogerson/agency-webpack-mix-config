@@ -255,7 +255,6 @@ if (!mix.inProduction()) {
  * 🏞 Images
  * Images are optimized and copied to the build directory
  * https://github.com/Klathmon/imagemin-webpack-plugin#api
- * Locked at version 1.0.0 for config compat issues
  */
 require("laravel-mix-imagemin")
 mix.imagemin(
