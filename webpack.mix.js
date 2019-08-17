@@ -265,7 +265,7 @@ mix.imagemin(
     {
         from: path.join(source.images, "**/*"),
         to: config.publicBuildFolder,
-        flatten: true,
+        context: "src/images",
     },
     {},
     {
