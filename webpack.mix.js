@@ -24,7 +24,6 @@
  * 🏞 Images
  * 🎆 Icons
  * 🗂️ Static
- * 🛁 Cleaning
  * 🚧 Webpack-dev-server
  */
 
@@ -45,8 +44,6 @@ const config = {
         { urlPath: "/", label: "index" },
         // { urlPath: "/about", label: "about" },
     ],
-    // Paths to clean before each start (publicFolder base)
-    publicToCleanBeforeStart: ["dist/**/*", "*.+(js|map|html|json)"],
     // Folder served to users
     publicFolder: "web",
     // Foldername for built src assets (publicFolder base)
@@ -295,6 +292,19 @@ mix.svgSprite(source.icons, path.join(config.publicBuildFolder, "sprite.svg"), {
     extract: true,
 })
 
+// Icon options
+mix.options({
+	imgLoaderOptions: {
+		svgo: {
+			plugins: [
+				{ convertColors: { currentColor: true } },
+				{ removeDimensions: false },
+				{ removeViewBox: false },
+			],
+		},
+	},
+})
+
 /**
  * 🗂️ Static
  * Additional folders with no transform requirements are copied to your build folders
@@ -303,19 +313,6 @@ mix.copyDirectory(
     source.static,
     path.join(config.publicFolder, config.publicBuildFolder)
 )
-
-/**
- * 🛁 Cleaning
- * Clear previous build files before new build
- */
-const { CleanWebpackPlugin } = require("clean-webpack-plugin")
-mix.webpackConfig({
-    plugins: [
-        new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: config.publicToCleanBeforeStart,
-        }),
-    ],
-})
 
 /**
  * 🚧 Webpack-dev-server
