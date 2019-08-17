@@ -164,6 +164,8 @@ if (config.purgeCssGrabFolders.length) {
     mix.purgeCss({
         enabled: mix.inProduction(),
         folders: config.purgeCssGrabFolders, // Folders scanned for selectors
+        whitelist: ["html", "body", "active", "wf-active", "wf-inactive"],
+        whitelistPatterns: [],
         extensions: ["php", "twig", "html", "js", "mjs", "vue"],
     })
 }
