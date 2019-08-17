@@ -78,7 +78,13 @@ mix.webpackConfig({ resolve: { alias: source } })
  */
 require("laravel-mix-twig-to-html")
 mix.twigToHtml({
-    files: path.resolve(__dirname, source.templates, '**/*.{twig,html}'),
+    files: [{
+        template: path.resolve(__dirname, source.templates, '**/*.{twig,html}'),
+        minify: {
+            collapseWhitespace: mix.inProduction(),
+            removeComments: mix.inProduction(),
+        },
+    }],
     fileBase: source.templates,
     enabled: config.buildStaticSite && source.templates,
     twigOptions: {
