@@ -53,7 +53,7 @@ const config = {
 // 🎚️ Imports
 const mix = require("laravel-mix")
 const path = require("path")
-const globby = require('globby');
+const globby = require("globby");
 
 // 🎚️ Source folders
 const source = {
@@ -133,7 +133,6 @@ styleFiles.forEach(styleFile => {
  * 🎨 Styles: CriticalCSS
  * https://github.com/addyosmani/critical#options
  */
-// (Optional) Set the baseurl in your .env, eg: `BASE_URL=http://google.com`
 const criticalDomain = config.devProxyDomain
 if (criticalDomain) {
     require("laravel-mix-critical")
