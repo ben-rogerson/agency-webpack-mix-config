@@ -149,20 +149,17 @@ const config = {
 
 Then create a new project database, add the `devProxyDomain` to Valet/Homestead/Vagrant and finish the Craft install with `composer install && ./craft setup`.
 
-For HMR and live reloading files in your 'templates' folder, you'll need to load these JavaScript files:
+##### Loading the files from the manifest
 
-```html
-<script src="https://localhost:8080/dist/manifest.js"></script>
-<script src="https://localhost:8080/dist/vendor.js"></script>
-<script src="https://localhost:8080/dist/main.js"></script>
-```
+No matter what CMS you use, you'll need a way to reference the files from the `mix-manifest.json` file that's created.
+This example shows how to [use Twigpack to load the files from the manifest](https://gist.github.com/ben-rogerson/52936be5aef3f0c9d06f0eda33958976). 
 
-You can now cleanup the packages used for static rendering with this command:
+##### Removing excess packages
+
+There will be some unnecessary packages used only for rendering a static site. Remove them from your project:
 ```bash
 npm rm html-webpack-plugin twig-html-loader laravel-mix-twig-to-html
 ```
-
-Then run `npm run dev` to start your development server.
 
 ## Tasks
 
