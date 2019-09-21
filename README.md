@@ -127,7 +127,7 @@ This option converts the Twig templates in `src/templates` into static Html file
     ```
     You'll need to run `npm run build` to preview your static site operating at `my-static-site.test`.
 
-3. npm run dev` to start your development server.
+3. `npm run dev` to start your development server.
 
 #### b) Create a dynamic site
 
