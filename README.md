@@ -113,14 +113,21 @@ Dynamic template sites could be ones running Craft, Wordpress, or Laravel.
 
 This option converts the Twig templates in `src/templates` into static Html files and hashes assets during a production build.
 
-Update the `devProxyDomain` in `webpack.mix.js`, eg:
+1. Update the `devProxyDomain` in `webpack.mix.js`, eg:
+    ```javascript
+    const config = {
+      // ...
+      devProxyDomain: "http://my-static-site.test",
+    }
+    ```
+2. Then add your `devProxyDomain` to Valet/Homestead/Vagrant.
+    If you're using [Valet](https://laravel.com/docs/5.8/valet) you can add it like this:
+    ```bash
+    cd web && valet link my-static-site.test
+    ```
+    You'll need to run `npm run build` to preview your static site operating at `my-static-site.test`.
 
-```javascript
-const config = {
-    devProxyDomain: "http://my-static-site.test",
-}
-```
-Then add the `devProxyDomain` to Valet/Homestead/Vagrant and run `npm run dev` to start your development server.
+3. npm run dev` to start your development server.
 
 #### b) Create a dynamic site
 
