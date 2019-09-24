@@ -53,7 +53,7 @@ const config = {
 // 🎚️ Imports
 const mix = require("laravel-mix")
 const path = require("path")
-const globby = require("globby");
+const globby = require("globby")
 
 // 🎚️ Source folders
 const source = {
@@ -294,15 +294,15 @@ mix.svgSprite(source.icons, path.join(config.publicBuildFolder, "sprite.svg"), {
 
 // Icon options
 mix.options({
-	imgLoaderOptions: {
-		svgo: {
-			plugins: [
-				{ convertColors: { currentColor: true } },
-				{ removeDimensions: false },
-				{ removeViewBox: false },
-			],
-		},
-	},
+    imgLoaderOptions: {
+        svgo: {
+            plugins: [
+                { convertColors: { currentColor: true } },
+                { removeDimensions: false },
+                { removeViewBox: false },
+            ],
+        },
+    },
 })
 
 /**
