@@ -76,21 +76,28 @@ mix.webpackConfig({ resolve: { alias: source } })
  * Convert Twig files to Html
  * https://github.com/ben-rogerson/laravel-mix-twig-to-html
  */
-require("laravel-mix-twig-to-html")
-mix.twigToHtml({
-    files: [{
-        template: path.resolve(__dirname, source.templates, '**/*.{twig,html}'),
-        minify: {
-            collapseWhitespace: mix.inProduction(),
-            removeComments: mix.inProduction(),
+if (config.buildStaticSite && source.templates) {
+    require("laravel-mix-twig-to-html")
+    mix.twigToHtml({
+        files: [
+            {
+                template: path.resolve(
+                    __dirname,
+                    source.templates,
+                    "**/*.{twig,html}"
+                ),
+                minify: {
+                    collapseWhitespace: mix.inProduction(),
+                    removeComments: mix.inProduction(),
+                },
+            },
+        ],
+        fileBase: source.templates,
+        twigOptions: {
+            data: require(path.join(source.templates, "_data", "data.js")),
         },
-    }],
-    fileBase: source.templates,
-    enabled: config.buildStaticSite && source.templates,
-    twigOptions: {
-        data: require(path.join(source.templates, "_data", "data.js")),
-    },
-})
+    })
+}
 
 /**
  * 🎭 Hashing (for non-static sites)
