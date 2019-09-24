@@ -125,7 +125,7 @@ styleFiles.forEach(styleFile => {
     mix.sass(
         styleFile,
         path.join(config.publicFolder, config.publicBuildFolder),
-        { data: styleData }
+        { prependData: styleData }
     )
 })
 
