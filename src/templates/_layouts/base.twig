@@ -2,19 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
     <title>{{ title|default('No title') }}</title>
-
-    <!-- Your styles will be injected here -->
+    {# Your styles will be automaticaly injected here (you're free to remove this) #}
 </head>
 
-<!-- Data attribute for the async icon sprite -->
-<body data-icons="dist/sprite.svg">
+<body data-icons="/dist/sprite.svg">{# <- this is for the icon sprite #}
 
     {% block main %}{% endblock %}
 
-    <!-- Your scripts will be injected here -->
+    {# Your scripts will be automaticaly injected here (you're free to remove this) #}
 </body>
-
 </html>

@@ -109,20 +109,27 @@ cd new-project && npm install
 This config allows for either static or dynamic template sites.
 Dynamic template sites could be ones running Craft, Wordpress, or Laravel.
 
-#### a) Start a static site
+#### a) Create a static site
 
 This option converts the Twig templates in `src/templates` into static Html files and hashes assets during a production build.
 
-Update the `devProxyDomain` in `webpack.mix.js`, eg:
+1. Update the `devProxyDomain` in `webpack.mix.js`, eg:
+    ```javascript
+    const config = {
+      // ...
+      devProxyDomain: "http://my-static-site.test",
+    }
+    ```
+2. Then add your `devProxyDomain` to Valet/Homestead/Vagrant.
+    If you're using [Valet](https://laravel.com/docs/5.8/valet) you can add it like this:
+    ```bash
+    cd web && valet link my-static-site.test
+    ```
+    You'll need to run `npm run build` to preview your static site operating at `my-static-site.test`.
 
-```javascript
-const config = {
-    devProxyDomain: "http://my-static-site.test",
-}
-```
-Then add the `devProxyDomain` to Valet/Homestead/Vagrant and run `npm run dev` to start your development server.
+3. `npm run dev` to start your development server.
 
-#### b) Start a dynamic site
+#### b) Create a dynamic site
 
 This option lets you use a CMS and during production it compresses and hashes assets and creates a manifest file.
 
@@ -149,17 +156,14 @@ const config = {
 
 Then create a new project database, add the `devProxyDomain` to Valet/Homestead/Vagrant and finish the Craft install with `composer install && ./craft setup`.
 
-For HMR and live reloading files in your 'templates' folder, you'll need to load these JavaScript files:
+##### Loading the files from the manifest
 
-```javascript
-<script src="https://localhost:8080/dist/manifest.js"></script>
-<script src="https://localhost:8080/dist/vendor.js"></script>
-<script src="https://localhost:8080/dist/main.js"></script>
-```
+No matter what CMS you use, you'll need a way to reference the files from the `mix-manifest.json` file that's created.
+This example shows how to [use Twigpack to load the files from the manifest](https://gist.github.com/ben-rogerson/52936be5aef3f0c9d06f0eda33958976). 
 
-Then run `npm run dev` to start your development server.
+##### Removing excess packages
 
-You can now cleanup the packages used for static rendering with this command:
+There will be some unnecessary packages used only for rendering a static site. Remove them from your project:
 ```bash
 npm rm html-webpack-plugin twig-html-loader laravel-mix-twig-to-html
 ```

@@ -24,7 +24,6 @@
  * 🏞 Images
  * 🎆 Icons
  * 🗂️ Static
- * 🛁 Cleaning
  * 🚧 Webpack-dev-server
  */
 
@@ -32,8 +31,10 @@
 const config = {
     // Dev domain to proxy
     devProxyDomain: process.env.DEFAULT_SITE_URL || "http://site.test",
-    // Paths to observe for changes
+    // Paths to observe for changes then trigger a full page reload
     devWatchPaths: ["src/templates"],
+    // Port to use with webpack-dev-server
+    devServerPort: 8080,
     // Folders where purgeCss can look for used selectors
     purgeCssGrabFolders: ["src"],
     // Build a static site from the src/template files
@@ -43,20 +44,16 @@ const config = {
         { urlPath: "/", label: "index" },
         // { urlPath: "/about", label: "about" },
     ],
-    // Paths to clean before each start (publicFolder base)
-    publicToCleanBeforeStart: ["dist/**/*", "*.+(js|map|html|json)"],
     // Folder served to users
     publicFolder: "web",
     // Foldername for built src assets (publicFolder base)
     publicBuildFolder: "dist",
-    // The port used by webpack-dev-server
-	webpackDevServerPort: 8080,
 }
 
 // 🎚️ Imports
 const mix = require("laravel-mix")
 const path = require("path")
-const getFilesIn = require("get-files-in")
+const globby = require("globby")
 
 // 🎚️ Source folders
 const source = {
@@ -79,15 +76,28 @@ mix.webpackConfig({ resolve: { alias: source } })
  * Convert Twig files to Html
  * https://github.com/ben-rogerson/laravel-mix-twig-to-html
  */
-require("laravel-mix-twig-to-html")
-mix.twigToHtml({
-    files: path.resolve(__dirname, source.templates, '**/*.{twig,html}'),
-    fileBase: source.templates,
-    enabled: config.buildStaticSite && source.templates,
-    twigOptions: {
-        data: require(path.join(source.templates, "_data", "data.js")),
-    },
-})
+if (config.buildStaticSite && source.templates) {
+    require("laravel-mix-twig-to-html")
+    mix.twigToHtml({
+        files: [
+            {
+                template: path.resolve(
+                    __dirname,
+                    source.templates,
+                    "**/*.{twig,html}"
+                ),
+                minify: {
+                    collapseWhitespace: mix.inProduction(),
+                    removeComments: mix.inProduction(),
+                },
+            },
+        ],
+        fileBase: source.templates,
+        twigOptions: {
+            data: require(path.join(source.templates, "_data", "data.js")),
+        },
+    })
+}
 
 /**
  * 🎭 Hashing (for non-static sites)
@@ -114,10 +124,7 @@ if (mix.inProduction() && !config.buildStaticSite) {
  * https://github.com/sass/node-sass#options
  */
 // Get a list of style files within the base styles folder
-const styleFiles = getFilesIn(path.resolve(__dirname, source.styles), [
-    "scss",
-    "sass",
-])
+const styleFiles = globby.sync(`${source.styles}/*.{scss,sass}`)
 // Data to send to style files
 const styleData = `$isDev: ${!mix.inProduction()};`
 // Create an asset for every style file
@@ -125,7 +132,7 @@ styleFiles.forEach(styleFile => {
     mix.sass(
         styleFile,
         path.join(config.publicFolder, config.publicBuildFolder),
-        { data: styleData }
+        { prependData: styleData }
     )
 })
 
@@ -133,7 +140,6 @@ styleFiles.forEach(styleFile => {
  * 🎨 Styles: CriticalCSS
  * https://github.com/addyosmani/critical#options
  */
-// (Optional) Set the baseurl in your .env, eg: `BASE_URL=http://google.com`
 const criticalDomain = config.devProxyDomain
 if (criticalDomain) {
     require("laravel-mix-critical")
@@ -164,6 +170,8 @@ if (config.purgeCssGrabFolders.length) {
     mix.purgeCss({
         enabled: mix.inProduction(),
         folders: config.purgeCssGrabFolders, // Folders scanned for selectors
+        whitelist: ["html", "body", "active", "wf-active", "wf-inactive"],
+        whitelistPatterns: [],
         extensions: ["php", "twig", "html", "js", "mjs", "vue"],
     })
 }
@@ -203,10 +211,7 @@ mix.options({
  * Script files are transpiled to vanilla JavaScript
  * https://laravel-mix.com/docs/4.0/mixjs
  */
-const scriptFiles = getFilesIn(path.resolve(__dirname, source.scripts), [
-    "js",
-    "mjs",
-])
+const scriptFiles = globby.sync(`${source.scripts}/*.{js,mjs}`)
 scriptFiles.forEach(scriptFile => {
     mix.js(scriptFile, config.publicBuildFolder)
 })
@@ -258,14 +263,13 @@ if (!mix.inProduction()) {
  * 🏞 Images
  * Images are optimized and copied to the build directory
  * https://github.com/Klathmon/imagemin-webpack-plugin#api
- * Locked at version 1.0.0 for config compat issues
  */
 require("laravel-mix-imagemin")
 mix.imagemin(
     {
         from: path.join(source.images, "**/*"),
         to: config.publicBuildFolder,
-        flatten: true,
+        context: "src/images",
     },
     {},
     {
@@ -295,6 +299,19 @@ mix.svgSprite(source.icons, path.join(config.publicBuildFolder, "sprite.svg"), {
     extract: true,
 })
 
+// Icon options
+mix.options({
+    imgLoaderOptions: {
+        svgo: {
+            plugins: [
+                { convertColors: { currentColor: true } },
+                { removeDimensions: false },
+                { removeViewBox: false },
+            ],
+        },
+    },
+})
+
 /**
  * 🗂️ Static
  * Additional folders with no transform requirements are copied to your build folders
@@ -305,19 +322,6 @@ mix.copyDirectory(
 )
 
 /**
- * 🛁 Cleaning
- * Clear previous build files before new build
- */
-const { CleanWebpackPlugin } = require("clean-webpack-plugin")
-mix.webpackConfig({
-    plugins: [
-        new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: config.publicToCleanBeforeStart,
-        }),
-    ],
-})
-
-/**
  * 🚧 Webpack-dev-server
  * https://webpack.js.org/configuration/dev-server/
  */
@@ -326,8 +330,8 @@ mix.webpackConfig({
         clientLogLevel: "none", // Hide console feedback so eslint can take over
         open: true,
         overlay: true,
-        port: config.webpackDevServerPort,
-		public: `localhost:${config.webpackDevServerPort}`,
+        port: config.devServerPort,
+        public: `localhost:${config.devServerPort}`,
         host: "0.0.0.0", // Allows access from network
         https: config.devProxyDomain.includes("https://"),
         contentBase: config.devWatchPaths.length
