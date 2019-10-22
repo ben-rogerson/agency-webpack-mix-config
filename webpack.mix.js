@@ -352,3 +352,8 @@ mix.webpackConfig({
         },
     },
 })
+mix.options({
+	hmrOptions: {
+		port: config.webpackDevServerPort
+	}
+});
