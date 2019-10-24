@@ -181,20 +181,19 @@ if (config.purgeCssGrabFolders.length) {
  * Extend Css with plugins
  * https://laravel-mix.com/docs/4.0/css-preprocessors#postcss-plugins
  */
-// mix.options({
-//     postCss: [
-//         require("add-your-postcss-plugin"),
-//         require('tailwindcss')('./tailwind.config.js'),
-//     ],
-// })
+const postCssPlugins = [
+    // https://tailwindcss.com/docs/installation/#laravel-mix
+    // require('tailwindcss')('./tailwind.config.js'),
 
-/**
- * 🎨 Styles: Polyfills
- * Postcss preset env lets you use pre-implemented css features
- * See https://cssdb.org/ for supported features
- * https://github.com/csstools/postcss-preset-env#readme
- */
-mix.options({ postCss: [require("postcss-preset-env")({ stage: 2 })] })
+    /**
+     * 🎨 Styles: Polyfills
+     * Postcss preset env lets you use pre-implemented css features
+     * See https://cssdb.org/ for supported features
+     * https://github.com/csstools/postcss-preset-env#readme
+     */
+    require("postcss-preset-env")({ stage: 2 }),
+]
+mix.options({ postCss: postCssPlugins })
 
 /**
  * 🎨 Styles: Other
