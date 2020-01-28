@@ -112,8 +112,11 @@ if (mix.inProduction() && !config.buildStaticSite) {
     const manifestPath = path.join(config.publicFolder, "mix-manifest.json")
     // Run after mix finishes
     mix.then(() => {
-        const laravelMixMakeFileHash = require("laravel-mix-make-file-hash")
-        laravelMixMakeFileHash(config.publicFolder, manifestPath)
+        const convertToFileHash = require("laravel-mix-make-file-hash")
+        convertToFileHash({
+            publicPath: config.publicFolder,
+            manifestFilePath: manifestPath,
+        })
     })
 }
 
