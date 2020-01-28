@@ -1,7 +1,7 @@
 // Styles for the demo
 
 body {
-    background: #3064FA;
+    background: #3064fa;
     color: white;
     font-size: 10em;
     display: flex;
@@ -14,15 +14,15 @@ body {
 // The '$isDev' variable comes from webpack.mix.js
 @if ($isDev) {
     body:before {
-        content: 'dev';
+        content: "dev";
         background-color: black;
         position: absolute;
         left: 1em;
         top: 0;
         border-radius: 0 0 3px 3px;
-        padding: .1em .4em;
+        padding: 0.1em 0.4em;
         font-size: 12px;
-        opacity: .7;
+        opacity: 0.7;
     }
 }
 
@@ -52,6 +52,6 @@ body {
 
 @keyframes breathe {
     to {
-        transform: scale(.75);
+        transform: scale(0.75);
     }
 }
