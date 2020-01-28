@@ -6,7 +6,7 @@ export default {
     components: {},
     computed: {},
     mounted() {
-        console.log("👍 Started Vue app: vue/app.vue")
+        console.log("👍 Started Vue app in 'src/scripts/vue/app.vue'")
     },
 }
 </script>
