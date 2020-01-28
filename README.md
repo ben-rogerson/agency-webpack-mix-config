@@ -37,9 +37,9 @@ Style files are compiled to CSS and PostCss plugins provide additional transform
 
 <p><img width="80%" src="https://i.imgur.com/H3IkPgK.png" alt="Styles src folder"></p>
 
--   [Sass](http://sass-lang.com) auto compiling, prefixing, minifying and sourcemaps
--   [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) come preconfigured to improve your page speed
--   [Autoprefixer](https://github.com/postcss/autoprefixer) and [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) provide support for older browsers
+- [Sass](http://sass-lang.com) auto compiling, prefixing, minifying and sourcemaps
+- [CriticalCSS](https://github.com/addyosmani/critical) and [PurgeCSS](https://www.purgecss.com/) come preconfigured to improve your page speed
+- [Autoprefixer](https://github.com/postcss/autoprefixer) and [PostCSS Preset Env](https://github.com/csstools/postcss-preset-env) provide support for older browsers
 
 <br>
 
@@ -49,9 +49,9 @@ Script files are transpiled to vanilla JavaScript and the necessary polyfills in
 
 <p><img width="80%" src="https://i.imgur.com/pkRrCcB.png" alt="Script src folder"></p>
 
--   Script transpiling with [Babel](https://babeljs.io) with minifying and sourcemaps
--   Automatic browser polyfills are provided by Core-Js 3
--   [ESLint](https://eslint.org/) is provided for error linting
+- Script transpiling with [Babel](https://babeljs.io) with minifying and sourcemaps
+- Automatic browser polyfills are provided by Core-Js 3
+- [ESLint](https://eslint.org/) is provided for error linting
 
 <br>
 
@@ -61,7 +61,7 @@ Images are optimized and copied to the build directory.
 
 <p><img width="80%" src="https://i.imgur.com/k0zVopU.png" alt="Image src folder"></p>
 
--   Optimisations are provided by [Imagemin](https://github.com/imagemin/imagemin)
+- Optimisations are provided by [Imagemin](https://github.com/imagemin/imagemin)
 
 <br>
 
@@ -71,8 +71,8 @@ Individual SVG icons are optimised then combined into a single cacheable SVG.
 
 <p><img width="80%" src="https://i.imgur.com/YHQ82r9.png" alt="Icons src folder"></p>
 
--   An async script adds the svg sprite to your page
--   You can display an icon like this:<br/>
+- An async script adds the svg sprite to your page
+- You can display an icon like this:<br/>
 
 ```html
 <svg><use xlink:href="icon-code" /></svg>
@@ -114,17 +114,21 @@ Dynamic template sites could be ones running Craft, Wordpress, or Laravel.
 This option converts the Twig templates in `src/templates` into static Html files and hashes assets during a production build.
 
 1. Update the `devProxyDomain` in `webpack.mix.js`, eg:
+
     ```javascript
     const config = {
       // ...
       devProxyDomain: "http://my-static-site.test",
     }
     ```
+
 2. Then add your `devProxyDomain` to Valet/Homestead/Vagrant.
     If you're using [Valet](https://laravel.com/docs/5.8/valet) you can add it like this:
+
     ```bash
     cd web && valet link my-static-site.test
     ```
+
     You'll need to run `npm run build` to preview your static site operating at `my-static-site.test`.
 
 3. `npm run dev` to start your development server.
@@ -164,6 +168,7 @@ This example shows how to [use Twigpack to load the files from the manifest](htt
 ##### Removing excess packages
 
 There will be some unnecessary packages used only for rendering a static site. Remove them from your project:
+
 ```bash
 npm rm html-webpack-plugin twig-html-loader laravel-mix-twig-to-html
 ```
