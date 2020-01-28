@@ -41,7 +41,7 @@ const config = {
     buildStaticSite: true,
     // Urls for CriticalCss to look for "above the fold" Css
     criticalCssUrls: [
-        { urlPath: "/", label: "index" },
+        // { urlPath: "/", label: "index" },
         // { urlPath: "/about", label: "about" },
     ],
     // Folder served to users
@@ -141,11 +141,11 @@ styleFiles.forEach(styleFile => {
  * https://github.com/addyosmani/critical#options
  */
 const criticalDomain = config.devProxyDomain
-if (criticalDomain) {
+if (criticalDomain && config.criticalCssUrls && config.criticalCssUrls.length) {
     require("laravel-mix-critical")
     const url = require("url")
     mix.critical({
-        enabled: mix.inProduction() && config.criticalCssUrls.length,
+        enabled: mix.inProduction(),
         urls: config.criticalCssUrls.map(page => ({
             src: url.resolve(criticalDomain, page.urlPath),
             dest: path.join(
