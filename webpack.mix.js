@@ -356,6 +356,7 @@ mix.webpackConfig({
                 secure: false,
             },
         },
+        publicPath: "/",
     },
 })
 mix.options({
