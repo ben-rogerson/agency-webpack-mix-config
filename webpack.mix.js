@@ -264,7 +264,12 @@ if (!mix.inProduction()) {
 /**
  * 🏞 Images
  * Images are optimized and copied to the build directory
+ * https://github.com/CupOfTea696/laravel-mix-imagemin
  * https://github.com/Klathmon/imagemin-webpack-plugin#api
+ *
+ * Important: laravel-mix-imagemin is incompatible with
+ * copy-webpack-plugin > 5.1.1, so keep that dependency at that version.
+ * See: https://github.com/CupOfTea696/laravel-mix-imagemin/issues/9
  */
 require("laravel-mix-imagemin")
 mix.imagemin(
