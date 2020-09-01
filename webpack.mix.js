@@ -366,6 +366,7 @@ mix.webpackConfig({
 })
 mix.options({
     hmrOptions: {
-        port: config.webpackDevServerPort,
+        host: 'localhost',
+        port: config.devServerPort
     },
 })
